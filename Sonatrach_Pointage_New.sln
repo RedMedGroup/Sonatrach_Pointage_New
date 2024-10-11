@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35303.130
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sonatrach_Pointage_New", "Sonatrach_Pointage_New\Sonatrach_Pointage_New.csproj", "{D5084BD2-B6C2-4800-A591-17EA197115BE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D5084BD2-B6C2-4800-A591-17EA197115BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5084BD2-B6C2-4800-A591-17EA197115BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5084BD2-B6C2-4800-A591-17EA197115BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5084BD2-B6C2-4800-A591-17EA197115BE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
