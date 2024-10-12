@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_Statistique));
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
+            this.btn_chart = new DevExpress.XtraEditors.SimpleButton();
             this.gridControl1 = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.btn_listeStq = new DevExpress.XtraEditors.SimpleButton();
@@ -52,6 +53,7 @@
             this.layoutControlItem4 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
             this.emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
+            this.layoutControlItem10 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlGroup2 = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutControlItem9 = new DevExpress.XtraLayout.LayoutControlItem();
             this.barManager1 = new DevExpress.XtraBars.BarManager(this.components);
@@ -64,8 +66,6 @@
             this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
-            this.btn_chart = new DevExpress.XtraEditors.SimpleButton();
-            this.layoutControlItem10 = new DevExpress.XtraLayout.LayoutControlItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
@@ -85,10 +85,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem10)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem9)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.barManager1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem10)).BeginInit();
             this.SuspendLayout();
             // 
             // layoutControl1
@@ -110,6 +110,18 @@
             this.layoutControl1.Size = new System.Drawing.Size(1101, 366);
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
+            // 
+            // btn_chart
+            // 
+            this.btn_chart.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("btn_chart.ImageOptions.SvgImage")));
+            this.btn_chart.Location = new System.Drawing.Point(967, 24);
+            this.btn_chart.Margin = new System.Windows.Forms.Padding(2);
+            this.btn_chart.Name = "btn_chart";
+            this.btn_chart.Size = new System.Drawing.Size(40, 38);
+            this.btn_chart.StyleController = this.layoutControl1;
+            this.btn_chart.TabIndex = 21;
+            this.btn_chart.Tag = "Frm_Chart";
+            this.btn_chart.Click += new System.EventHandler(this.btn_chart_Click);
             // 
             // gridControl1
             // 
@@ -340,6 +352,15 @@
             this.emptySpaceItem1.Size = new System.Drawing.Size(285, 44);
             this.emptySpaceItem1.TextSize = new System.Drawing.Size(0, 0);
             // 
+            // layoutControlItem10
+            // 
+            this.layoutControlItem10.Control = this.btn_chart;
+            this.layoutControlItem10.Location = new System.Drawing.Point(943, 0);
+            this.layoutControlItem10.Name = "layoutControlItem10";
+            this.layoutControlItem10.Size = new System.Drawing.Size(44, 44);
+            this.layoutControlItem10.TextSize = new System.Drawing.Size(0, 0);
+            this.layoutControlItem10.TextVisible = false;
+            // 
             // layoutControlGroup2
             // 
             this.layoutControlGroup2.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
@@ -457,26 +478,6 @@
             this.barDockControlRight.Manager = this.barManager1;
             this.barDockControlRight.Size = new System.Drawing.Size(0, 366);
             // 
-            // btn_chart
-            // 
-            this.btn_chart.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("simpleButton1.ImageOptions.SvgImage")));
-            this.btn_chart.Location = new System.Drawing.Point(967, 24);
-            this.btn_chart.Margin = new System.Windows.Forms.Padding(2);
-            this.btn_chart.Name = "btn_chart";
-            this.btn_chart.Size = new System.Drawing.Size(40, 38);
-            this.btn_chart.StyleController = this.layoutControl1;
-            this.btn_chart.TabIndex = 21;
-            this.btn_chart.Click += new System.EventHandler(this.btn_chart_Click);
-            // 
-            // layoutControlItem10
-            // 
-            this.layoutControlItem10.Control = this.btn_chart;
-            this.layoutControlItem10.Location = new System.Drawing.Point(943, 0);
-            this.layoutControlItem10.Name = "layoutControlItem10";
-            this.layoutControlItem10.Size = new System.Drawing.Size(44, 44);
-            this.layoutControlItem10.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem10.TextVisible = false;
-            // 
             // Frm_Statistique
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -490,6 +491,7 @@
             this.IconOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("Frm_Statistique.IconOptions.SvgImage")));
             this.Name = "Frm_Statistique";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Tag = "Frm_Statistique";
             this.Text = "Statistique";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Frm_Statistique_Load);
@@ -512,10 +514,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem10)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem9)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.barManager1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem10)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

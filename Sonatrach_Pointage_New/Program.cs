@@ -18,7 +18,7 @@ namespace Sonatrach_Pointage_New
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form.Frm_Main());
+            Application.Run(new Form.Frm_LogIn());
         }
     }
 }

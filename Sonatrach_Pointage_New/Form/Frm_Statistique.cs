@@ -13,6 +13,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Sonatrach_Pointage_New.report;
+using Sonatrach_Pointage_New.Classe;
+using static Sonatrach_Pointage_New.Classe.Master;
 
 namespace Sonatrach_Pointage_New.Form
 {
@@ -523,7 +525,15 @@ namespace Sonatrach_Pointage_New.Form
 
         private void btn_print_pinalite_Click(object sender, EventArgs e)
         {
-            GenerateReport();
+            if (UserManager.User != null &&(UserType)UserManager.User.UserType == UserType.Admin)
+            {
+                GenerateReport();
+            }
+            else
+            {
+                // رسالة تفيد بعدم امتلاك الصلاحية لفتح النموذج
+                MessageBox.Show("Vous n'avez pas les autorisations d'accès.");
+            }
         }
 
         private void btn_listeStq_Click(object sender, EventArgs e)
@@ -545,8 +555,16 @@ namespace Sonatrach_Pointage_New.Form
 
         private void btn_chart_Click(object sender, EventArgs e)
         {
-            Frm_Chart frm = new Frm_Chart();
-            frm.ShowDialog();
+            if (UserManager.User != null &&(UserType) UserManager.User.UserType == UserType.Admin)
+            {
+               Frm_Main.Instance.OpenFormByName("Frm_Chart");
+            }
+            else
+            {
+                MessageBox.Show("لا تملك صلاحية لفتح هذا النموذج.");
+            }
+            //Frm_Chart frm = new Frm_Chart();
+            //frm.ShowDialog();
         }
     }
 }
