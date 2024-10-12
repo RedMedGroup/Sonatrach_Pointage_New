@@ -41,5 +41,31 @@ namespace Sonatrach_Pointage_New.Form
             Frm_Statistique frm = new Frm_Statistique();
             frm.ShowDialog();
         }
+
+        private void barButtonItem5_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            string enteredPassword = Microsoft.VisualBasic.Interaction.InputBox(
+                "☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠:",
+                "🩻🩻🩻🩻🩻🩻🩻🩻🩻🩻🩻🩻🩻🩻🩻🩻🩻🩻🩻",
+                "",
+                -1,
+                -1
+            );
+
+            if (IsValidPassword(enteredPassword))
+            {
+                Connextion_SQL form2 = new Connextion_SQL();
+                form2.Show();
+                MessageBox.Show("🤬🤬🤬🤬🤬🤬🤬🤬🤬🤬🤬🤬🤬🤬🤬🤬🤬🤬🤬🤬");
+            }
+            else
+            {
+                MessageBox.Show("💀💀💀💀💀💀💀💀💀💥💀💀💀💀💀💀💀💀💀💥.");
+            }
+        }
+        private bool IsValidPassword(string password)
+        {
+            return password == "123";
+        }
     }
 }

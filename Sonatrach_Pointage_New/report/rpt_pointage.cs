@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 
 namespace Sonatrach_Pointage_New.report
 {
@@ -15,6 +16,8 @@ namespace Sonatrach_Pointage_New.report
         public rpt_pointage()
         {
             InitializeComponent();
+            string formattedDate = DateTime.Now.ToString("dd/MM/yyyy", CultureInfo.GetCultureInfo("fr-FR"));
+            lbl_date.Text = formattedDate;
         }
         private TimeSpan dateRange;
         private int totalDays;

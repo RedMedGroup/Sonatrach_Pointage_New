@@ -33,5 +33,77 @@ namespace Sonatrach_Pointage_New.Properties {
                 return ((string)(this["Sonatrach_PointageConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SERVER_NAME {
+            get {
+                return ((string)(this["SERVER_NAME"]));
+            }
+            set {
+                this["SERVER_NAME"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DATABASE_NAME {
+            get {
+                return ((string)(this["DATABASE_NAME"]));
+            }
+            set {
+                this["DATABASE_NAME"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DB_USER_NAME {
+            get {
+                return ((string)(this["DB_USER_NAME"]));
+            }
+            set {
+                this["DB_USER_NAME"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DB_PASSWORD {
+            get {
+                return ((string)(this["DB_PASSWORD"]));
+            }
+            set {
+                this["DB_PASSWORD"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string CON_STRING {
+            get {
+                return ((string)(this["CON_STRING"]));
+            }
+            set {
+                this["CON_STRING"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("SQL")]
+        public string Mode {
+            get {
+                return ((string)(this["Mode"]));
+            }
+            set {
+                this["Mode"] = value;
+            }
+        }
     }
 }

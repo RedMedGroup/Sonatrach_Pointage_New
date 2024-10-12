@@ -542,5 +542,11 @@ namespace Sonatrach_Pointage_New.Form
         {
             gridView1.ShowRibbonPrintPreview();
         }
+
+        private void btn_chart_Click(object sender, EventArgs e)
+        {
+            Frm_Chart frm = new Frm_Chart();
+            frm.ShowDialog();
+        }
     }
 }
