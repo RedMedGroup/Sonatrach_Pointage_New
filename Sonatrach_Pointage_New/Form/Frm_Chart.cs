@@ -24,6 +24,7 @@ namespace Sonatrach_Pointage_New.Form
         {
             dateEdit1.DateTime=DateTime.Now;
             dateEdit2.DateTime=DateTime.Now;
+            gridView1.OptionsBehavior.Editable = false;
         }
         private void LoadEmployees()
         {
@@ -32,12 +33,14 @@ namespace Sonatrach_Pointage_New.Form
                 var employees = context.Fich_Agents.Select(agent => new
                 {
                     ID = agent.ID,
-                    Name = agent.Name // احصل على اسم الموظف أو أي تفاصيل أخرى حسب الحاجة
+                    Name = agent.Name 
                 }).ToList();
 
                 gridLookUpEdit1.Properties.DataSource = employees;
                 gridLookUpEdit1.Properties.DisplayMember = "Name";
                 gridLookUpEdit1.Properties.ValueMember = "ID";
+                gridLookUpEdit1.Properties.PopulateViewColumns();
+                gridLookUpEdit1.Properties.View.Columns["ID"].Visible = false;
             }
         }
 
@@ -136,7 +139,7 @@ namespace Sonatrach_Pointage_New.Form
             // عد الحالات حسب الأنواع المختلفة
             int totalPresent = attendanceTable.AsEnumerable().Count(row => row.Field<string>("Status") == "P");
             int totalAbsences = attendanceTable.AsEnumerable().Count(row => row.Field<string>("Status") == "A");
-            int totalCR = attendanceTable.AsEnumerable().Count(row => row.Field<string>("Status") == "CG");
+            int totalCR = attendanceTable.AsEnumerable().Count(row => row.Field<string>("Status") == "CR");
             int totalCE = attendanceTable.AsEnumerable().Count(row => row.Field<string>("Status") == "CE");
             int totalAA = attendanceTable.AsEnumerable().Count(row => row.Field<string>("Status") == "AA");
             int totalM = attendanceTable.AsEnumerable().Count(row => row.Field<string>("Status") == "M");
@@ -144,7 +147,7 @@ namespace Sonatrach_Pointage_New.Form
             // إضافة النقاط إلى السلسلة
             series.Points.Add(new DevExpress.XtraCharts.SeriesPoint("P", totalPresent));
             series.Points.Add(new DevExpress.XtraCharts.SeriesPoint("A", totalAbsences));
-            series.Points.Add(new DevExpress.XtraCharts.SeriesPoint("CG", totalCR));
+            series.Points.Add(new DevExpress.XtraCharts.SeriesPoint("CR", totalCR));
             series.Points.Add(new DevExpress.XtraCharts.SeriesPoint("CE", totalCE));
             series.Points.Add(new DevExpress.XtraCharts.SeriesPoint("AA", totalAA));
             series.Points.Add(new DevExpress.XtraCharts.SeriesPoint("M", totalM));

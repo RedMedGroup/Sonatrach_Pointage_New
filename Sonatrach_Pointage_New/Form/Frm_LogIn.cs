@@ -97,6 +97,16 @@ namespace Sonatrach_Pointage_New.Form
                 var userFromDb = context.Users
                                         .Where(u => u.UserName == userName && u.Password == password)
                                         .FirstOrDefault();
+                if (userFromDb == null)
+                {
+                    XtraMessageBox.Show(
+                         text: "Le nom d'utilisateur ou le mot de passe est incorrect",
+                        caption: "",
+                        icon: MessageBoxIcon.Error,
+                        buttons: MessageBoxButtons.OK
+                        );
+                    return false;
+                }
                 if (userFromDb.IsActive == false)
                 {
                     XtraMessageBox.Show(

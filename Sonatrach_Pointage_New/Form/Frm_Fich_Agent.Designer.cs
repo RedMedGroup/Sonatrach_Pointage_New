@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_Fich_Agent));
             this.btn_valid = new System.Windows.Forms.Button();
             this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
@@ -106,9 +107,11 @@
             this.Controls.Add(this.labelControl1);
             this.Controls.Add(this.lkp_post);
             this.Controls.Add(this.txt_Name);
+            this.IconOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("Frm_Fich_Agent.IconOptions.SvgImage")));
             this.MinimizeBox = false;
             this.Name = "Frm_Fich_Agent";
-            this.Text = "Frm_Fich_Agent";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Fich_Agent";
             this.Load += new System.EventHandler(this.Frm_Fich_Agent_Load);
             ((System.ComponentModel.ISupportInitialize)(this.lkp_post.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridLookUpEdit1View)).EndInit();

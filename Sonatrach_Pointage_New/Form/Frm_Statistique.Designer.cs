@@ -147,6 +147,7 @@
             this.btn_listeStq.Size = new System.Drawing.Size(66, 38);
             this.btn_listeStq.StyleController = this.layoutControl1;
             this.btn_listeStq.TabIndex = 19;
+            this.btn_listeStq.Tag = "Frm_Statistique_List";
             this.btn_listeStq.Text = "Liste";
             this.btn_listeStq.Click += new System.EventHandler(this.btn_listeStq_Click);
             // 

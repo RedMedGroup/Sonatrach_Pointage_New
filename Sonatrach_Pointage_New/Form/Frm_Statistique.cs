@@ -362,7 +362,6 @@ namespace Sonatrach_Pointage_New.Form
 
             using (var context = new DAL.DataClasses1DataContext())
             {
-                // الحصول على بيانات الغيابات وتجميعها حسب ItemID مع ربطها بـ P_Heders للحصول على التاريخ
                 var absenceData = context.P_Details
                     .Join(context.P_Heders, detail => detail.ID_Heder, header => header.ID,
                         (detail, header) => new { detail, header })
@@ -377,12 +376,11 @@ namespace Sonatrach_Pointage_New.Form
                     })
                     .ToList();
 
-                // الحصول على الأقسام والبيانات المرتبطة بها
                 var departmentData = context.Fich_Agents
                     .Select(agent => new
                     {
-                        ItemID = agent.ID, // ItemID هو ID الفرد
-                        PostID = agent.ID_Post, // ID_Post للدلالة على القسم
+                        ItemID = agent.ID, // ItemID 
+                        PostID = agent.ID_Post, 
                         DepartmentName = context.Fiche_DePosts
                             .Where(dp => dp.ID == agent.ID_Post)
                             .Select(dp => dp.Name)
@@ -415,7 +413,6 @@ namespace Sonatrach_Pointage_New.Form
                         );
                     }
                 }
-                // إضافة البيانات إلى الجدول
                 foreach (var dept in departmentAbsences)
                 {
                     DataRow row = table.NewRow();
@@ -433,7 +430,7 @@ namespace Sonatrach_Pointage_New.Form
         {
             DateTime startDate = dateEdit1.DateTime;
             DateTime endDate = dateEdit2.DateTime;
-            int totalDays = (endDate - startDate).Days + 1; // حساب عدد الأيام
+            int totalDays = (endDate - startDate).Days + 1; 
 
 
             rpt_penalite report = new rpt_penalite();
@@ -490,7 +487,7 @@ namespace Sonatrach_Pointage_New.Form
                         row["Department"] = department.DepartmentName;
                         row["RequiredEmployees"] = department.RequiredEmployees;
                         row["WorkerName"] = worker.WorkerName;
-                        row["Status"] = worker.Status ?? "A"; // إذا لم يتم العثور على السجل نعتبره غائباً
+                        row["Status"] = worker.Status ?? "A"; 
                         row["PresentCount"] = presentCount;
 
                         table.Rows.Add(row);
@@ -501,7 +498,7 @@ namespace Sonatrach_Pointage_New.Form
         }
         private void GenerateDailyReport()
         {
-            DateTime reportDate = dateEdit1.DateTime; // تعيين التاريخ المحدد للتقرير اليومي
+            DateTime reportDate = dateEdit1.DateTime; 
             rpt_DailyReport report = new rpt_DailyReport();
             report.DataSource = CreateDailyReport(reportDate);
             report.ShowPreview();
@@ -531,15 +528,21 @@ namespace Sonatrach_Pointage_New.Form
             }
             else
             {
-                // رسالة تفيد بعدم امتلاك الصلاحية لفتح النموذج
                 MessageBox.Show("Vous n'avez pas les autorisations d'accès.");
             }
         }
 
         private void btn_listeStq_Click(object sender, EventArgs e)
         {
-            Frm_Statistique_List frm = new Frm_Statistique_List();
-            frm.ShowDialog();
+            if (UserManager.User != null && (UserType)UserManager.User.UserType == UserType.Admin)
+            {
+                Frm_Main.Instance.OpenFormByName("Frm_Statistique_List");
+            }
+            else
+            {
+                MessageBox.Show("Vous n'avez pas les autorisations d'accès.");
+            }
+     
         }
 
         private void btn_import_Click(object sender, EventArgs e)
@@ -561,10 +564,8 @@ namespace Sonatrach_Pointage_New.Form
             }
             else
             {
-                MessageBox.Show("لا تملك صلاحية لفتح هذا النموذج.");
-            }
-            //Frm_Chart frm = new Frm_Chart();
-            //frm.ShowDialog();
+                MessageBox.Show("Vous n'avez pas les autorisations d'accès.");
+            }    
         }
     }
 }

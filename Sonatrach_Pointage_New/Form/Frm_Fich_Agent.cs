@@ -19,7 +19,16 @@ namespace Sonatrach_Pointage_New.Form
             InitializeComponent();
             New();
         }
-
+        public Frm_Fich_Agent(int id)
+        {
+            InitializeComponent();
+            using (var db = new DAL.DataClasses1DataContext())
+            {
+                agent = db.Fich_Agents.Single(x => x.ID == id);
+                GetData();
+            }
+            this.Text = string.Format(";;: {0}", agent.Name);
+        }
         private void Frm_Fich_Agent_Load(object sender, EventArgs e)
         {
             using (var db = new DAL.DataClasses1DataContext())
@@ -30,6 +39,8 @@ namespace Sonatrach_Pointage_New.Form
                 lkp_post.Properties.DataSource = post;
                 lkp_post.Properties.DisplayMember = "Name";
                 lkp_post.Properties.ValueMember = "ID";
+                lkp_post.Properties.PopulateViewColumns();
+                lkp_post.Properties.View.Columns["ID"].Visible = false;
             }
         }
 

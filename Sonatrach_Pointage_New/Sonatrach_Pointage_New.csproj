@@ -157,6 +157,12 @@
     <Compile Include="Form\Frm_Statistique_List.Designer.cs">
       <DependentUpon>Frm_Statistique_List.cs</DependentUpon>
     </Compile>
+    <Compile Include="Form\Frm_User.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\Frm_User.Designer.cs">
+      <DependentUpon>Frm_User.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form\Frm_WorkDays.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -189,6 +195,9 @@
     <EmbeddedResource Include="Form\Connextion_SQL.resx">
       <DependentUpon>Connextion_SQL.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Form\Frm_AgentList.resx">
+      <DependentUpon>Frm_AgentList.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form\Frm_Chart.resx">
       <DependentUpon>Frm_Chart.cs</DependentUpon>
     </EmbeddedResource>
@@ -212,6 +221,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form\Frm_Statistique_List.resx">
       <DependentUpon>Frm_Statistique_List.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\Frm_User.resx">
+      <DependentUpon>Frm_User.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form\Frm_WorkDays.resx">
       <DependentUpon>Frm_WorkDays.cs</DependentUpon>

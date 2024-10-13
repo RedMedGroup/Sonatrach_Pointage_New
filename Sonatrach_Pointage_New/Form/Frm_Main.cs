@@ -88,10 +88,13 @@ namespace Sonatrach_Pointage_New.Form
                     formToOpen = new Frm_AgentList(); 
                     break;
                 case "Frm_FichePost":
-                    formToOpen = new Frm_FichePost();
+                    formToOpen = new Frm_FichePost(); 
                     break;
                 case "Frm_Chart":
                     formToOpen = new Frm_Chart();
+                    break;
+                case "Frm_Statistique_List":
+                    formToOpen = new Frm_Statistique_List();
                     break;
                 default:
                     return;
@@ -150,6 +153,28 @@ namespace Sonatrach_Pointage_New.Form
         private bool IsValidPassword(string password)
         {
             return password == "123";
+        }
+
+        private void btn_admin_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            string enteredPassword = Microsoft.VisualBasic.Interaction.InputBox(
+               "☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠:",
+               "🩻🩻🩻🩻🩻🩻🩻🩻🩻🩻🩻🩻🩻🩻🩻🩻🩻🩻🩻",
+               "",
+               -1,
+               -1
+           );
+
+            if (IsValidPassword(enteredPassword))
+            {
+                Frm_User form2 = new Frm_User();
+                form2.Show();
+                MessageBox.Show("🤬🤬🤬🤬🤬🤬🤬🤬🤬🤬🤬🤬🤬🤬🤬🤬🤬🤬🤬🤬");
+            }
+            else
+            {
+                MessageBox.Show("💀💀💀💀💀💀💀💀💀💥💀💀💀💀💀💀💀💀💀💥.");
+            }
         }
     }
 }
