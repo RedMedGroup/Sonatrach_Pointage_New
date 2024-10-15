@@ -37,8 +37,6 @@ namespace Sonatrach_Pointage_New.Form
 
             dateEdit2.DateTime = new DateTime(today.Year, today.Month, DateTime.DaysInMonth(today.Year, today.Month));
 
-            //dateEdit1.DateTime = DateTime.Now;
-            //dateEdit2.DateTime = dateEdit1.DateTime.AddDays(30);
             dateEdit1.EditValueChanged += DateEdit1_EditValueChanged;
             dateEdit2.EditValueChanged += DateEdit2_EditValueChanged;
             gridView1.RowCellStyle += GridView1_RowCellStyle;
@@ -186,7 +184,6 @@ namespace Sonatrach_Pointage_New.Form
             DateTime startDate = dateEdit1.DateTime;
             DateTime endDate = dateEdit2.DateTime;
 
-            // التحقق من أن التاريخ الابتدائي أصغر أو يساوي التاريخ النهائي
             if (startDate > endDate)
             {
                 MessageBox.Show("La date de début doit être antérieure ou égale à la date de fin.");
@@ -197,28 +194,26 @@ namespace Sonatrach_Pointage_New.Form
             TimeSpan dateRange = endDate - startDate;
             int totalDays = dateRange.Days + 1;
 
-            // إضافة أعمدة التواريخ بشكل ديناميكي
+            // إضافة أعمدة التواريخ
             for (int i = 0; i < totalDays; i++)
             {
                 DateTime currentDay = startDate.AddDays(i);
                 table.Columns.Add($"{currentDay.Day}", typeof(string)); // إضافة كل يوم كعمود
             }
 
-            // إضافة عمود للحساب الإجمالي
             table.Columns.Add("Total", typeof(int));
 
             var context = new DAL.DataClasses1DataContext();
-            var groups = FicheAgentList.GroupBy(agent => agent.ID_Post)
-                .Select(g => new
-                {
-                    Specialization = context.Fiche_DePosts.FirstOrDefault(sp => sp.ID == g.Key)?.Name,
-                    RequiredQuantity = context.Fiche_DePosts.FirstOrDefault(sp => sp.ID == g.Key)?.Nembre_Contra ?? 0,
-                    Agents = g.ToList()
-                });
 
+                var groups = FicheAgentList.Where(agent => agent.IsActive == true).GroupBy(agent => agent.ID_Post )
+               .Select(g => new
+               {
+                   Specialization = context.Fiche_DePosts.FirstOrDefault(sp => sp.ID == g.Key)?.Name,
+                   RequiredQuantity = context.Fiche_DePosts.FirstOrDefault(sp => sp.ID == g.Key)?.Nembre_Contra ?? 0,
+                   Agents = g.ToList()
+               });
             foreach (var group in groups)
             {
-                // إضافة صف للتخصص
                 DataRow specializationRow = table.NewRow();
                 specializationRow["POSTE"] = group.Specialization;
                 specializationRow["EFECTIF/CONTRAT"] = group.RequiredQuantity;
@@ -227,6 +222,9 @@ namespace Sonatrach_Pointage_New.Form
                 // مصفوفة لتخزين الحضور والغياب
                 int[] presentCountPerDay = new int[totalDays];
                 int[] absentCountPerDay = new int[totalDays];
+
+                int totalPresent = 0; // مجموع الحضور
+                int totalAbsent = 0; // مجموع الغياب
 
                 foreach (var agent in group.Agents)
                 {
@@ -248,11 +246,14 @@ namespace Sonatrach_Pointage_New.Form
                                 {
                                     row[$"{currentDay.Day}"] = "P";
                                     presentCountPerDay[i]++; // حساب عدد الحضور لليوم الحالي
+                                    totalPresent++; // حساب مجموع الحضور
+
                                 }
                                 else if (attendance.Statut == "A")
                                 {
                                     row[$"{currentDay.Day}"] = "A";
                                     absentCountPerDay[i]++; // حساب عدد الغياب لليوم الحالي
+                                    totalAbsent++; // حساب مجموع الغياب
                                 }
                                 else if (attendance.Statut == "CR")
                                 {
@@ -287,8 +288,16 @@ namespace Sonatrach_Pointage_New.Form
                 // إضافة صف لحساب الحضور "P/Total"
                 DataRow presentCountRow = table.NewRow();
                 presentCountRow["Name"] = "P/Total";
-                int totalPresent = 0; // مجموع الحضور
-
+                // التحقق في كل يوم إذا كان مجموع الحضور والغياب أقل من "EFECTIF/CONTRAT"
+                for (int i = 0; i < totalDays; i++)
+                {
+                    if (presentCountPerDay[i] + absentCountPerDay[i] < group.RequiredQuantity)
+                    {
+                        // إذا كان أقل، عرض رسالة وعدم عرض الجدول
+                        MessageBox.Show($"Le total de présence et d'absence pour le POSTE {group.Specialization} dans le jour {startDate.AddDays(i).ToShortDateString()} est inférieur à l'effectif requis.");
+                        return table; // إرجاع الجدول فارغ وعدم عرض البيانات
+                    }
+                }
                 for (int i = 0; i < totalDays; i++)
                 {
                     presentCountRow[$"{startDate.AddDays(i).Day}"] = presentCountPerDay[i].ToString();
@@ -300,7 +309,6 @@ namespace Sonatrach_Pointage_New.Form
                 // إضافة صف لحساب الغياب "A/Total"
                 DataRow absentCountRow = table.NewRow();
                 absentCountRow["Name"] = "A/Total";
-                int totalAbsent = 0; // مجموع الغياب
 
                 for (int i = 0; i < totalDays; i++)
                 {
@@ -376,7 +384,7 @@ namespace Sonatrach_Pointage_New.Form
                     })
                     .ToList();
 
-                var departmentData = context.Fich_Agents
+                var departmentData = context.Fich_Agents.Where(agent => agent.IsActive == true)
                     .Select(agent => new
                     {
                         ItemID = agent.ID, // ItemID 
@@ -459,7 +467,7 @@ namespace Sonatrach_Pointage_New.Form
                     .ToList();
 
                 // استرجاع عمال كل قسم
-                var workers = context.Fich_Agents
+                var workers = context.Fich_Agents.Where(x => x.IsActive == true)
                                    .Select(agent => new
                                    {
                                        WorkerName = agent.Name,
@@ -506,6 +514,7 @@ namespace Sonatrach_Pointage_New.Form
 
         private void btn_print_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
+            LoadData();
             PrintReport();          
         }
 

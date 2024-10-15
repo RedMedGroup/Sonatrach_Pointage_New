@@ -35,17 +35,19 @@
             this.barButtonItem3 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem5 = new DevExpress.XtraBars.BarButtonItem();
+            this.barDockingMenuItem1 = new DevExpress.XtraBars.BarDockingMenuItem();
+            this.btn_admin = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem6 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem7 = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup3 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup4 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
-            this.pictureEdit1 = new DevExpress.XtraEditors.PictureEdit();
-            this.barDockingMenuItem1 = new DevExpress.XtraBars.BarDockingMenuItem();
-            this.btn_admin = new DevExpress.XtraBars.BarButtonItem();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureEdit1.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // ribbon
@@ -60,9 +62,11 @@
             this.barButtonItem4,
             this.barButtonItem5,
             this.barDockingMenuItem1,
-            this.btn_admin});
+            this.btn_admin,
+            this.barButtonItem6,
+            this.barButtonItem7});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 8;
+            this.ribbon.MaxItemId = 11;
             this.ribbon.Name = "ribbon";
             this.ribbon.PageHeaderItemLinks.Add(this.barButtonItem5);
             this.ribbon.PageHeaderItemLinks.Add(this.btn_admin);
@@ -112,6 +116,43 @@
             this.barButtonItem5.Name = "barButtonItem5";
             this.barButtonItem5.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem5_ItemClick);
             // 
+            // barDockingMenuItem1
+            // 
+            this.barDockingMenuItem1.Caption = "barDockingMenuItem1";
+            this.barDockingMenuItem1.Id = 6;
+            this.barDockingMenuItem1.Name = "barDockingMenuItem1";
+            // 
+            // btn_admin
+            // 
+            this.btn_admin.Caption = "barButtonItem6";
+            this.btn_admin.Id = 7;
+            this.btn_admin.Name = "btn_admin";
+            this.btn_admin.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btn_admin_ItemClick);
+            // 
+            // barButtonItem6
+            // 
+            this.barButtonItem6.Caption = "barButtonItem6";
+            this.barButtonItem6.Id = 8;
+            this.barButtonItem6.Name = "barButtonItem6";
+            this.barButtonItem6.RibbonStyle = ((DevExpress.XtraBars.Ribbon.RibbonItemStyles)(((DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large | DevExpress.XtraBars.Ribbon.RibbonItemStyles.SmallWithText) 
+            | DevExpress.XtraBars.Ribbon.RibbonItemStyles.SmallWithoutText)));
+            // 
+            // barButtonItem7
+            // 
+            this.barButtonItem7.Alignment = DevExpress.XtraBars.BarItemLinkAlignment.Right;
+            this.barButtonItem7.Caption = "barButtonItem7";
+            this.barButtonItem7.Id = 10;
+            this.barButtonItem7.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("barButtonItem7.ImageOptions.SvgImage")));
+            this.barButtonItem7.ItemAppearance.Disabled.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.barButtonItem7.ItemAppearance.Disabled.Options.UseFont = true;
+            this.barButtonItem7.ItemAppearance.Hovered.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.barButtonItem7.ItemAppearance.Hovered.Options.UseFont = true;
+            this.barButtonItem7.ItemAppearance.Normal.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.barButtonItem7.ItemAppearance.Normal.Options.UseFont = true;
+            this.barButtonItem7.ItemInMenuAppearance.Normal.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.barButtonItem7.ItemInMenuAppearance.Normal.Options.UseFont = true;
+            this.barButtonItem7.Name = "barButtonItem7";
+            // 
             // ribbonPage1
             // 
             this.ribbonPage1.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -153,44 +194,31 @@
             // 
             // ribbonStatusBar
             // 
+            this.ribbonStatusBar.ItemLinks.Add(this.barButtonItem7);
             this.ribbonStatusBar.Location = new System.Drawing.Point(0, 414);
             this.ribbonStatusBar.Name = "ribbonStatusBar";
             this.ribbonStatusBar.Ribbon = this.ribbon;
             this.ribbonStatusBar.Size = new System.Drawing.Size(851, 35);
             // 
-            // pictureEdit1
+            // pictureBox1
             // 
-            this.pictureEdit1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureEdit1.EditValue = ((object)(resources.GetObject("pictureEdit1.EditValue")));
-            this.pictureEdit1.Location = new System.Drawing.Point(293, 209);
-            this.pictureEdit1.MenuManager = this.ribbon;
-            this.pictureEdit1.Name = "pictureEdit1";
-            this.pictureEdit1.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.Auto;
-            this.pictureEdit1.Properties.SizeMode = DevExpress.XtraEditors.Controls.PictureSizeMode.Zoom;
-            this.pictureEdit1.Size = new System.Drawing.Size(239, 163);
-            this.pictureEdit1.TabIndex = 2;
-            // 
-            // barDockingMenuItem1
-            // 
-            this.barDockingMenuItem1.Caption = "barDockingMenuItem1";
-            this.barDockingMenuItem1.Id = 6;
-            this.barDockingMenuItem1.Name = "barDockingMenuItem1";
-            // 
-            // btn_admin
-            // 
-            this.btn_admin.Caption = "barButtonItem6";
-            this.btn_admin.Id = 7;
-            this.btn_admin.Name = "btn_admin";
-            this.btn_admin.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btn_admin_ItemClick);
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(341, 231);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(225, 117);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 5;
+            this.pictureBox1.TabStop = false;
             // 
             // Frm_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(851, 449);
-            this.Controls.Add(this.pictureEdit1);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.ribbonStatusBar);
             this.Controls.Add(this.ribbon);
             this.IconOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("Frm_Main.IconOptions.SvgImage")));
@@ -200,8 +228,9 @@
             this.StatusBar = this.ribbonStatusBar;
             this.Text = "Système de pointage";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Frm_Main_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureEdit1.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -220,9 +249,11 @@
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup2;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup3;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup4;
-        private DevExpress.XtraEditors.PictureEdit pictureEdit1;
         private DevExpress.XtraBars.BarButtonItem barButtonItem5;
         private DevExpress.XtraBars.BarDockingMenuItem barDockingMenuItem1;
         private DevExpress.XtraBars.BarButtonItem btn_admin;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem6;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem7;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

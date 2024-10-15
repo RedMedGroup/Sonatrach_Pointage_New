@@ -1,4 +1,5 @@
 ﻿using DevExpress.XtraEditors;
+using DevExpress.XtraRichEdit.Layout;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Sonatrach_Pointage_New.Form
 {
@@ -31,6 +33,7 @@ namespace Sonatrach_Pointage_New.Form
         }
         private void Frm_Fich_Agent_Load(object sender, EventArgs e)
         {
+            toggleSwitch1.IsOn=false;
             using (var db = new DAL.DataClasses1DataContext())
             {
                 var post = db.Fiche_DePosts.Select(x => new { x.ID, x.Name }).ToList();
@@ -52,11 +55,13 @@ namespace Sonatrach_Pointage_New.Form
         {
             agent.Name = txt_Name.Text;
             agent.ID_Post = Convert.ToInt32(lkp_post.EditValue);
+            agent.IsActive = toggleSwitch1.IsOn;
         }
         void GetData()
         {
             txt_Name.Text = agent.Name;
             lkp_post.EditValue = agent.ID_Post;
+            toggleSwitch1.IsOn=agent.IsActive;
         }
         void New()
         {
@@ -100,6 +105,10 @@ namespace Sonatrach_Pointage_New.Form
             {
                 return "Ce champ est obligatoire";
             }
+        }
+        private void toggleSwitch1_Toggled(object sender, EventArgs e)
+        {
+            toolTip1.SetToolTip(toggleSwitch1, "S'il est On, il sera suspendu.");
         }
     }
 }

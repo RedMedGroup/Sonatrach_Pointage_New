@@ -30,9 +30,6 @@ namespace Sonatrach_Pointage_New.DAL
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-    partial void InsertFich_Agent(Fich_Agent instance);
-    partial void UpdateFich_Agent(Fich_Agent instance);
-    partial void DeleteFich_Agent(Fich_Agent instance);
     partial void InsertFiche_DePost(Fiche_DePost instance);
     partial void UpdateFiche_DePost(Fiche_DePost instance);
     partial void DeleteFiche_DePost(Fiche_DePost instance);
@@ -45,6 +42,9 @@ namespace Sonatrach_Pointage_New.DAL
     partial void InsertUser(User instance);
     partial void UpdateUser(User instance);
     partial void DeleteUser(User instance);
+    partial void InsertFich_Agent(Fich_Agent instance);
+    partial void UpdateFich_Agent(Fich_Agent instance);
+    partial void DeleteFich_Agent(Fich_Agent instance);
     #endregion
 		
 		public DataClasses1DataContext() : 
@@ -75,14 +75,6 @@ namespace Sonatrach_Pointage_New.DAL
 				base(connection, mappingSource)
 		{
 			OnCreated();
-		}
-		
-		public System.Data.Linq.Table<Fich_Agent> Fich_Agents
-		{
-			get
-			{
-				return this.GetTable<Fich_Agent>();
-			}
 		}
 		
 		public System.Data.Linq.Table<Fiche_DePost> Fiche_DePosts
@@ -116,114 +108,12 @@ namespace Sonatrach_Pointage_New.DAL
 				return this.GetTable<User>();
 			}
 		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Fich_Agent")]
-	public partial class Fich_Agent : INotifyPropertyChanging, INotifyPropertyChanged
-	{
 		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _ID;
-		
-		private string _Name;
-		
-		private int _ID_Post;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIDChanging(int value);
-    partial void OnIDChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    partial void OnID_PostChanging(int value);
-    partial void OnID_PostChanged();
-    #endregion
-		
-		public Fich_Agent()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int ID
+		public System.Data.Linq.Table<Fich_Agent> Fich_Agents
 		{
 			get
 			{
-				return this._ID;
-			}
-			set
-			{
-				if ((this._ID != value))
-				{
-					this.OnIDChanging(value);
-					this.SendPropertyChanging();
-					this._ID = value;
-					this.SendPropertyChanged("ID");
-					this.OnIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID_Post", DbType="Int NOT NULL")]
-		public int ID_Post
-		{
-			get
-			{
-				return this._ID_Post;
-			}
-			set
-			{
-				if ((this._ID_Post != value))
-				{
-					this.OnID_PostChanging(value);
-					this.SendPropertyChanging();
-					this._ID_Post = value;
-					this.SendPropertyChanged("ID_Post");
-					this.OnID_PostChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+				return this.GetTable<Fich_Agent>();
 			}
 		}
 	}
@@ -719,6 +609,140 @@ namespace Sonatrach_Pointage_New.DAL
 					this._UserType = value;
 					this.SendPropertyChanged("UserType");
 					this.OnUserTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsActive", DbType="Bit NOT NULL")]
+		public bool IsActive
+		{
+			get
+			{
+				return this._IsActive;
+			}
+			set
+			{
+				if ((this._IsActive != value))
+				{
+					this.OnIsActiveChanging(value);
+					this.SendPropertyChanging();
+					this._IsActive = value;
+					this.SendPropertyChanged("IsActive");
+					this.OnIsActiveChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Fich_Agent")]
+	public partial class Fich_Agent : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private string _Name;
+		
+		private int _ID_Post;
+		
+		private bool _IsActive;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnID_PostChanging(int value);
+    partial void OnID_PostChanged();
+    partial void OnIsActiveChanging(bool value);
+    partial void OnIsActiveChanged();
+    #endregion
+		
+		public Fich_Agent()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID_Post", DbType="Int NOT NULL")]
+		public int ID_Post
+		{
+			get
+			{
+				return this._ID_Post;
+			}
+			set
+			{
+				if ((this._ID_Post != value))
+				{
+					this.OnID_PostChanging(value);
+					this.SendPropertyChanging();
+					this._ID_Post = value;
+					this.SendPropertyChanged("ID_Post");
+					this.OnID_PostChanged();
 				}
 			}
 		}

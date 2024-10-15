@@ -87,7 +87,6 @@ namespace Sonatrach_Pointage_New.Form
 
         private void btn_log_Click(object sender, EventArgs e)
         {
-           // Login();
             Login(txt_UserName.Text, txt_UserPWD.Text);
         }
         public bool Login(string userName, string password)
@@ -97,6 +96,8 @@ namespace Sonatrach_Pointage_New.Form
                 var userFromDb = context.Users
                                         .Where(u => u.UserName == userName && u.Password == password)
                                         .FirstOrDefault();
+                var UserNameP=context.Users.SingleOrDefault(w=>w.UserName==userName);
+                NamUser = UserNameP.Name;
                 if (userFromDb == null)
                 {
                     XtraMessageBox.Show(

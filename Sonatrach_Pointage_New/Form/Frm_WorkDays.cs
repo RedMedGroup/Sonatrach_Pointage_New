@@ -78,6 +78,7 @@ namespace Sonatrach_Pointage_New.Form
             table.Columns.Add("Poste", typeof(string));
             table.Columns.Add("Date de retour des vacances", typeof(DateTime));
             table.Columns.Add("Jours ouvrables", typeof(int));
+            table.Columns.Add("Statut", typeof(string)); // إضافة عمود جديد للحالة
 
 
             // ربط البيانات باستخدام LINQ
@@ -90,111 +91,66 @@ namespace Sonatrach_Pointage_New.Form
                                      EmployeeName = agent.Name,
                                      DepartmentName = post.Name,
                                      AgentID = agent.ID,
-                                     PostID = post.ID
+                                     PostID = post.ID,
+                                     IsActive = agent.IsActive
                                  }).ToList();
 
                 foreach (var agent in agentData)
                 {
-                    // إيجاد آخر يوم إجازة (CR) قبل التاريخ المحدد
-                    var lastVacationDay = (from details in context.P_Details
-                                           join headers in context.P_Heders on details.ID_Heder equals headers.ID
-                                           where details.ItemID == agent.AgentID && details.Statut == "CR" && headers.Date <= selectedDate
-                                           orderby headers.Date descending
-                                           select headers.Date).FirstOrDefault();
-
-                    // إيجاد أول يوم حضور (P) بعد آخر إجازة (CR)
-                    var firstPresentDayAfterVacation = (from details in context.P_Details
-                                                        join headers in context.P_Heders on details.ID_Heder equals headers.ID
-                                                        where details.ItemID == agent.AgentID && details.Statut == "P" && headers.Date > lastVacationDay
-                                                        orderby headers.Date
-                                                        select headers.Date).FirstOrDefault();
-
-                    // التحقق مما إذا كان التاريخ المحدد بعد آخر يوم حضور (P)
-                    var lastPresentDayBeforeSelected = (from details in context.P_Details
-                                                        join headers in context.P_Heders on details.ID_Heder equals headers.ID
-                                                        where details.ItemID == agent.AgentID && details.Statut == "P" && headers.Date <= selectedDate
-                                                        orderby headers.Date descending
-                                                        select headers.Date).FirstOrDefault();
-
-                    // إذا كان الموظف قد عاد من الإجازة وكان التاريخ المحدد بعد عودته
-                    if (firstPresentDayAfterVacation != DateTime.MinValue &&
-                        firstPresentDayAfterVacation <= selectedDate &&
-                        lastPresentDayBeforeSelected != DateTime.MinValue)
+                    if (agent.IsActive == false)
                     {
-                        // حساب عدد أيام العمل منذ آخر يوم حضور بعد الإجازة
-                        int workingDays = (selectedDate - firstPresentDayAfterVacation).Days;
-
-                        // إضافة البيانات إلى الجدول
+                        // إضافة الموظف مع النص "توقف عن العمل" إذا كان غير نشط
                         DataRow row = table.NewRow();
                         row["Nom et Prénom"] = agent.EmployeeName;
                         row["Poste"] = agent.DepartmentName;
-                        row["Date de retour des vacances"] = firstPresentDayAfterVacation;
-                        row["Jours ouvrables"] = workingDays;
-
+                        row["Date de retour des vacances"] = DBNull.Value;
+                        row["Jours ouvrables"] = DBNull.Value;
+                        row["Statut"] = "Arrêter de travailler";
                         table.Rows.Add(row);
                     }
-                }
-            }
-
-            return table;
-        }
-        private DataTable CreateEmployeeReport2()
-        {
-            DataTable table = new DataTable();
-
-            // إضافة الأعمدة المطلوبة
-            table.Columns.Add("EmployeeName", typeof(string));
-            table.Columns.Add("DepartmentName", typeof(string));
-            table.Columns.Add("ReturnFromVacationDate", typeof(DateTime));
-            table.Columns.Add("WorkingDays", typeof(int));
-
-            DateTime selectedDate = dateEdit1.DateTime;
-
-            // ربط البيانات باستخدام LINQ
-            using (var context = new DAL.DataClasses1DataContext())
-            {
-                var agentData = (from agent in context.Fich_Agents
-                                 join post in context.Fiche_DePosts on agent.ID_Post equals post.ID
-                                 select new
-                                 {
-                                     EmployeeName = agent.Name,
-                                     DepartmentName = post.Name,
-                                     AgentID = agent.ID,
-                                     PostID = post.ID
-                                 }).ToList();
-
-                foreach (var agent in agentData)
-                {
-                    // إيجاد آخر يوم إجازة (CR) قبل التاريخ المحدد
-                    var lastVacationDay = (from details in context.P_Details
-                                           join headers in context.P_Heders on details.ID_Heder equals headers.ID
-                                           where details.ItemID == agent.AgentID && details.Statut == "CR" && headers.Date <= selectedDate
-                                           orderby headers.Date descending
-                                           select headers.Date).FirstOrDefault();
-
-                    // إيجاد أول يوم حضور (P) بعد آخر إجازة (CR)
-                    var firstPresentDayAfterVacation = (from details in context.P_Details
-                                                        join headers in context.P_Heders on details.ID_Heder equals headers.ID
-                                                        where details.ItemID == agent.AgentID && details.Statut == "P" && headers.Date > lastVacationDay
-                                                        orderby headers.Date
-                                                        select headers.Date).FirstOrDefault();
-
-                    // إذا كان الموظف قد عاد من الإجازة وكان التاريخ المحدد بعد عودته
-                    if (firstPresentDayAfterVacation != DateTime.MinValue && firstPresentDayAfterVacation <= selectedDate)
+                    else
                     {
-                        // حساب عدد أيام العمل منذ آخر يوم حضور بعد الإجازة
-                        int workingDays = (selectedDate - firstPresentDayAfterVacation).Days;
+                        // إيجاد آخر يوم إجازة (CR) قبل التاريخ المحدد
+                        var lastVacationDay = (from details in context.P_Details
+                                               join headers in context.P_Heders on details.ID_Heder equals headers.ID
+                                               where details.ItemID == agent.AgentID && details.Statut == "CR" && headers.Date <= selectedDate
+                                               orderby headers.Date descending
+                                               select headers.Date).FirstOrDefault();
 
-                        // إضافة البيانات إلى الجدول
-                        DataRow row = table.NewRow();
-                        row["EmployeeName"] = agent.EmployeeName;
-                        row["DepartmentName"] = agent.DepartmentName;
-                        row["ReturnFromVacationDate"] = firstPresentDayAfterVacation;
-                        row["WorkingDays"] = workingDays;
+                        // إيجاد أول يوم حضور (P) بعد آخر إجازة (CR)
+                        var firstPresentDayAfterVacation = (from details in context.P_Details
+                                                            join headers in context.P_Heders on details.ID_Heder equals headers.ID
+                                                            where details.ItemID == agent.AgentID && details.Statut == "P" && headers.Date > lastVacationDay
+                                                            orderby headers.Date
+                                                            select headers.Date).FirstOrDefault();
 
-                        table.Rows.Add(row);
+                        // التحقق مما إذا كان التاريخ المحدد بعد آخر يوم حضور (P)
+                        var lastPresentDayBeforeSelected = (from details in context.P_Details
+                                                            join headers in context.P_Heders on details.ID_Heder equals headers.ID
+                                                            where details.ItemID == agent.AgentID && details.Statut == "P" && headers.Date <= selectedDate
+                                                            orderby headers.Date descending
+                                                            select headers.Date).FirstOrDefault();
+
+                        // إذا كان الموظف قد عاد من الإجازة وكان التاريخ المحدد بعد عودته
+                        if (firstPresentDayAfterVacation != DateTime.MinValue &&
+                            firstPresentDayAfterVacation <= selectedDate &&
+                            lastPresentDayBeforeSelected != DateTime.MinValue)
+                        {
+                            // حساب عدد أيام العمل منذ آخر يوم حضور بعد الإجازة
+                            int workingDays = (selectedDate - firstPresentDayAfterVacation).Days;
+
+                            // إضافة البيانات إلى الجدول
+                            DataRow row = table.NewRow();
+                            row["Nom et Prénom"] = agent.EmployeeName;
+                            row["Poste"] = agent.DepartmentName;
+                            row["Date de retour des vacances"] = firstPresentDayAfterVacation;
+                            row["Jours ouvrables"] = workingDays;
+                            row["Statut"] = "Active";
+                            table.Rows.Add(row);
+                        }
                     }
                 }
+                  
             }
 
             return table;

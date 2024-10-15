@@ -32,6 +32,7 @@ namespace Sonatrach_Pointage_New.Form
         {
             InitializeComponent();
             ribbon.ItemClick += Ribbon_ItemClick;
+            barButtonItem7.Caption = Frm_LogIn.NamUser;
         }
 
         private void Ribbon_ItemClick(object sender, ItemClickEventArgs e)
@@ -175,6 +176,11 @@ namespace Sonatrach_Pointage_New.Form
             {
                 MessageBox.Show("💀💀💀💀💀💀💀💀💀💥💀💀💀💀💀💀💀💀💀💥.");
             }
+        }
+
+        private void Frm_Main_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
