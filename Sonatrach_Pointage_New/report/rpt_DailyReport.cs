@@ -1,9 +1,13 @@
 ﻿using DevExpress.XtraReports.UI;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
+using DevExpress.XtraPrinting;
+using System.Data;
+using System.Drawing.Printing;
 
 namespace Sonatrach_Pointage_New.report
 {
@@ -17,65 +21,198 @@ namespace Sonatrach_Pointage_New.report
             cell_ncontra.BeforePrint += Cell_ncontra_BeforePrint;
             cell_n.BeforePrint += Cell_n_BeforePrint;
             Cell_PresentCount.BeforePrint += Cell_PresentCount_BeforePrint;
+            cell_Ecart.BeforePrint += Cell_Ecart_BeforePrint;
+            BeforePrint += Rpt_DailyReport_BeforePrint;
         }
-        private string lastPresent = null;
-        private string lastSection = null;
-        private int rowNumber = 0;
-        private int presentCount = 0;
+
+        private void Rpt_DailyReport_BeforePrint(object sender, CancelEventArgs e)
+        {
+            lastCellByDepartment.Clear();
+            lastValueByDepartment.Clear();
+            lastCellByDepartment2.Clear();
+            lastValueByDepartment2.Clear();
+            lastCellByDepartment3.Clear();
+            lastValueByDepartment3.Clear();
+        }
+
+        private Dictionary<string, XRTableCell> lastCellByDepartment = new Dictionary<string, XRTableCell>();
+        private Dictionary<string, object> lastValueByDepartment = new Dictionary<string, object>();
+        private void Cell_Ecart_BeforePrint(object sender, CancelEventArgs e)
+        {
+            XRTableCell currentCell = (XRTableCell)sender;
+            string currentDepartment = GetCurrentColumnValue("Department")?.ToString();
+            string currentEcartValue = GetCurrentColumnValue("cell_Ecart")?.ToString();
+
+            // تحقق إذا كانت القيم الحالية فارغة
+            if (string.IsNullOrEmpty(currentDepartment) || string.IsNullOrEmpty(currentEcartValue))
+            {
+                return;
+            }
+
+            // تحقق مما إذا كانت هناك خلية سابقة بنفس القسم
+            if (lastCellByDepartment.ContainsKey(currentDepartment) &&
+                lastValueByDepartment[currentDepartment]?.ToString() == currentEcartValue)
+            {
+                XRTableCell lastCell = lastCellByDepartment[currentDepartment];
+                // زيادة قيمة RowSpan للخلية السابقة
+                lastCell.RowSpan = lastCell.RowSpan == 0 ? 2 : lastCell.RowSpan + 1;
+
+                currentCell.Visible = false;
+                lastCell.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+            }
+            else
+            {
+                // إذا كانت القيم مختلفة، تحديث القيم للخلية الحالية
+                lastCellByDepartment[currentDepartment] = currentCell;
+                lastValueByDepartment[currentDepartment] = currentEcartValue;
+
+                // اجعل الخلية الحالية مرئية وأعد ضبط RowSpan
+                currentCell.Visible = true;
+                currentCell.RowSpan = 1;
+            }         
+        }
+ 
+        private Dictionary<string, XRTableCell> lastCellByDepartment3 = new Dictionary<string, XRTableCell>();
+        private Dictionary<string, object> lastValueByDepartment3 = new Dictionary<string, object>();
         private void Cell_PresentCount_BeforePrint(object sender, CancelEventArgs e)
         {
-            XRTableCell cell = (XRTableCell)sender;
-            string currentSection = cell.Report.GetCurrentColumnValue("Department").ToString();
-            int currentPresentCount = Convert.ToInt32(cell.Report.GetCurrentColumnValue("PresentCount"));
-            if (currentSection != lastSection)
+            XRTableCell currentCell = (XRTableCell)sender;
+            string currentDepartment = GetCurrentColumnValue("Department")?.ToString();
+            string currentEcartValue = GetCurrentColumnValue("PresentCount")?.ToString();
+
+            // تحقق إذا كانت القيم الحالية فارغة
+            if (string.IsNullOrEmpty(currentDepartment) || string.IsNullOrEmpty(currentEcartValue))
             {
-                rowNumber = 0;
-                presentCount = currentPresentCount;
+                return;
             }
 
-            rowNumber++;
-
-            if (rowNumber == 1)
+            // تحقق مما إذا كانت هناك خلية سابقة بنفس القسم
+            if (lastCellByDepartment3.ContainsKey(currentDepartment) &&
+                lastValueByDepartment3[currentDepartment]?.ToString() == currentEcartValue)
             {
-                cell.Text = presentCount.ToString();
-                cell.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-                cell.RowSpan = cell.Report.GetCurrentColumnValue("SectionRowCount") != null ? Convert.ToInt32(cell.Report.GetCurrentColumnValue("SectionRowCount")) : 1;
-                //cell.Borders = DevExpress.XtraPrinting.BorderSide.None;
+                XRTableCell lastCell = lastCellByDepartment3[currentDepartment];
+
+                // زيادة قيمة RowSpan للخلية السابقة
+                lastCell.RowSpan = lastCell.RowSpan == 0 ? 2 : lastCell.RowSpan + 1;
+
+                // تعيين الخلية الحالية كغير مرئية
+                currentCell.Visible = false;
             }
             else
             {
-                cell.Text = string.Empty;
-                cell.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+                // إذا كانت القيم مختلفة، تحديث القيم للخلية الحالية
+                lastCellByDepartment3[currentDepartment] = currentCell;
+                lastValueByDepartment3[currentDepartment] = currentEcartValue;
+
+                // اجعل الخلية الحالية مرئية وأعد ضبط RowSpan
+                currentCell.Visible = true;
+                currentCell.RowSpan = 1;
             }
+            //XRTableCell cell = (XRTableCell)sender;
+            //string currentSection = cell.Report.GetCurrentColumnValue("Department").ToString();
+            //int currentPresentCount = Convert.ToInt32(cell.Report.GetCurrentColumnValue("PresentCount"));
+            //if (currentSection != lastSection)
+            //{
+            //    rowNumber = 0;
+            //    presentCount = currentPresentCount;
+            //}
 
-            lastSection = currentSection;
+            //rowNumber++;
+
+            //if (rowNumber == 1)
+            //{
+            //    cell.Text = presentCount.ToString();
+            //    cell.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+            //    cell.RowSpan = cell.Report.GetCurrentColumnValue("SectionRowCount") != null ? Convert.ToInt32(cell.Report.GetCurrentColumnValue("SectionRowCount")) : 1;
+            //    //cell.Borders = DevExpress.XtraPrinting.BorderSide.None;
+            //}
+            //else
+            //{
+            //    cell.Text = string.Empty;
+            //    cell.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+            //}
+
+            //lastSection = currentSection;
         }
-
-        int index = 1;
+        private string currentDepartment = string.Empty;
+        int index =0;
         private void Cell_n_BeforePrint(object sender, CancelEventArgs e)
         {
-            cell_n.Text = (index++).ToString();
+            XRTableCell departmentCell = FindControl("cell_Department", true) as XRTableCell;
+            if (departmentCell != null)
+            {
+                string department = departmentCell.Text;
+                XRTableCell cell = (XRTableCell)sender;
+                cell.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+
+                cell.ProcessDuplicatesMode = ProcessDuplicatesMode.Merge;
+                cell.ProcessDuplicatesTarget = ProcessDuplicatesTarget.Value;
+
+                cell.Text = cell.Text;
+                // تحقق مما إذا كان القسم الحالي يختلف عن القسم السابق
+                if (currentDepartment != department)
+                {
+                    currentDepartment = department;
+                    index++;
+                }
+            }
+
+            cell_n.Text = (index).ToString();
+            //  cell_n.Text = (index++).ToString();
         }
-        private string lastDepartment = null;
-        private int mergeCount = 0; // عدد الصفوف المدمجة
+  
+        private Dictionary<string, XRTableCell> lastCellByDepartment2 = new Dictionary<string, XRTableCell>();
+        private Dictionary<string, object> lastValueByDepartment2 = new Dictionary<string, object>();
         private void Cell_ncontra_BeforePrint(object sender, CancelEventArgs e)
         {
+            XRTableCell currentCell = (XRTableCell)sender;
+            string currentDepartment = GetCurrentColumnValue("Department")?.ToString();
+            string currentEcartValue = GetCurrentColumnValue("RequiredEmployees")?.ToString();
 
-            XRTableCell cell = (XRTableCell)sender;
-            string currentDepartment = cell.Report.GetCurrentColumnValue("Department")?.ToString();
-
-            cell.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-
-            if (currentDepartment == lastDepartment)
+            // تحقق إذا كانت القيم الحالية فارغة
+            if (string.IsNullOrEmpty(currentDepartment) || string.IsNullOrEmpty(currentEcartValue))
             {
-                cell.Text = string.Empty;
+                return;
+            }
+
+            // تحقق مما إذا كانت هناك خلية سابقة بنفس القسم
+            if (lastCellByDepartment2.ContainsKey(currentDepartment) &&
+                lastValueByDepartment2[currentDepartment]?.ToString() == currentEcartValue)
+            {
+                XRTableCell lastCell = lastCellByDepartment2[currentDepartment];
+
+                // زيادة قيمة RowSpan للخلية السابقة
+                lastCell.RowSpan = lastCell.RowSpan == 0 ? 2 : lastCell.RowSpan + 1;
+
+                // تعيين الخلية الحالية كغير مرئية
+                currentCell.Visible = false;
             }
             else
             {
-                cell.Text = cell.Text;
-            }
+                // إذا كانت القيم مختلفة، تحديث القيم للخلية الحالية
+                lastCellByDepartment2[currentDepartment] = currentCell;
+                lastValueByDepartment2[currentDepartment] = currentEcartValue;
 
-            lastDepartment = currentDepartment;
+                // اجعل الخلية الحالية مرئية وأعد ضبط RowSpan
+                currentCell.Visible = true;
+                currentCell.RowSpan = 1;
+            }
+            //XRTableCell cell = (XRTableCell)sender;
+            //string currentDepartment = cell.Report.GetCurrentColumnValue("Department")?.ToString();
+
+            //cell.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+
+            //if (currentDepartment == lastDepartment)
+            //{
+            //    cell.Text = string.Empty;
+            //}
+            //else
+            //{
+            //    cell.Text = cell.Text;
+            //}
+
+            //lastDepartment = currentDepartment;
+
         }
 
         private void Cell_Department_BeforePrint(object sender, CancelEventArgs e)
@@ -93,8 +230,10 @@ namespace Sonatrach_Pointage_New.report
         {
             cell_Department.DataBindings.Add("Text", this.DataSource, "Department");
             cell_ncontra.DataBindings.Add("Text", this.DataSource, "RequiredEmployees");
-            cell_M_Penalite.DataBindings.Add("Text", this.DataSource, "WorkerName");
+            cell_M_Penalite.DataBindings.Add("Text", this.DataSource, "WorkerName"); 
             cell_TotalPenalties.DataBindings.Add("Text", this.DataSource, "Status");
+            Cell_PresentCount.DataBindings.Add("Text", this.DataSource, "PresentCount");
+            cell_Ecart.DataBindings.Add("Text", this.DataSource, "cell_Ecart");
 
             string formattedDate = DateTime.Now.ToString("dd/MM/yyyy", CultureInfo.GetCultureInfo("fr-FR"));
             lbl_date.Text = formattedDate;

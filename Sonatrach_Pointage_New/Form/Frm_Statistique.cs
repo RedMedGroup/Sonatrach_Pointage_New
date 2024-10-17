@@ -41,9 +41,8 @@ namespace Sonatrach_Pointage_New.Form
             dateEdit2.EditValueChanged += DateEdit2_EditValueChanged;
             gridView1.RowCellStyle += GridView1_RowCellStyle;
             gridView1.CellMerge += GridView1_CellMerge;
-            gridView1.CustomDrawCell += GridView1_CustomDrawCell;
-        
-    }
+            gridView1.CustomDrawCell += GridView1_CustomDrawCell;       
+        }
 
         private void GridView1_CustomDrawCell(object sender, DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventArgs e)
         {
@@ -173,7 +172,7 @@ namespace Sonatrach_Pointage_New.Form
             // تحديث dateEdit2 ليكون في آخر الشهر
             dateEdit2.DateTime = selectedDate.AddDays(remainingDays);
         }
-
+      
         private DataTable CreateDataTable()
         {
             DataTable table = new DataTable();
@@ -222,6 +221,9 @@ namespace Sonatrach_Pointage_New.Form
                 // مصفوفة لتخزين الحضور والغياب
                 int[] presentCountPerDay = new int[totalDays];
                 int[] absentCountPerDay = new int[totalDays];
+                int[] absentAutiréserCountPerDay = new int[totalDays];
+                int[] MaladeCountPerDay = new int[totalDays];
+                int[] CongerExCountPerDay = new int[totalDays];
 
                 int totalPresent = 0; // مجموع الحضور
                 int totalAbsent = 0; // مجموع الغياب
@@ -262,14 +264,17 @@ namespace Sonatrach_Pointage_New.Form
                                 else if (attendance.Statut == "CE")
                                 {
                                     row[$"{currentDay.Day}"] = "CE";
+                                    CongerExCountPerDay[i]++;
                                 }
                                 else if (attendance.Statut == "M")
                                 {
                                     row[$"{currentDay.Day}"] = "M";
+                                    MaladeCountPerDay[i]++;
                                 }
                                 else if (attendance.Statut == "AA")
                                 {
                                     row[$"{currentDay.Day}"] = "AA";
+                                    absentAutiréserCountPerDay[i]++;
                                 }
                             }
                             else
@@ -288,16 +293,45 @@ namespace Sonatrach_Pointage_New.Form
                 // إضافة صف لحساب الحضور "P/Total"
                 DataRow presentCountRow = table.NewRow();
                 presentCountRow["Name"] = "P/Total";
+                //////////////////////////////////////////////////////////////////////////////////
                 // التحقق في كل يوم إذا كان مجموع الحضور والغياب أقل من "EFECTIF/CONTRAT"
-                for (int i = 0; i < totalDays; i++)
+                // إيجاد آخر تاريخ مسجل للحضور أو الغياب
+                DateTime? lastRecordedDate = null;
+                for (int i = totalDays - 1; i >= 0; i--)
                 {
-                    if (presentCountPerDay[i] + absentCountPerDay[i] < group.RequiredQuantity)
+                    if (presentCountPerDay[i] > 0 || absentCountPerDay[i] > 0)
                     {
-                        // إذا كان أقل، عرض رسالة وعدم عرض الجدول
-                        MessageBox.Show($"Le total de présence et d'absence pour le POSTE {group.Specialization} dans le jour {startDate.AddDays(i).ToShortDateString()} est inférieur à l'effectif requis.");
-                        return table; // إرجاع الجدول فارغ وعدم عرض البيانات
+                        lastRecordedDate = startDate.AddDays(i);
+                        break;
                     }
                 }
+
+                // التحقق إذا كان آخر تاريخ مسجل موجودًا
+                if (lastRecordedDate == null)
+                {
+                    MessageBox.Show("لا توجد تواريخ مسجلة للحضور أو الغياب.");
+                    return table;
+                }
+
+                // التحقق فقط ضمن النطاق المتاح من التواريخ
+                for (int i = 0; i < totalDays; i++)
+                {
+                    DateTime currentDay = startDate.AddDays(i);
+
+                    // التوقف عند آخر تاريخ مسجل
+                    if (currentDay > lastRecordedDate)
+                    {
+                        break;
+                    }
+
+                    if (presentCountPerDay[i] + absentCountPerDay[i] + CongerExCountPerDay [i]+ MaladeCountPerDay[i] + absentAutiréserCountPerDay[i] < group.RequiredQuantity)
+                    {
+                        // إذا كان أقل، عرض رسالة وعدم عرض الجدول
+                        MessageBox.Show($"Le total de présence et d'absence pour le POSTE {group.Specialization} dans le jour {currentDay.ToShortDateString()} est inférieur à l'effectif requis.");
+                        return table;
+                    }
+                }
+                //////////////////////////////////////////////////////////////////////////////////////////////
                 for (int i = 0; i < totalDays; i++)
                 {
                     presentCountRow[$"{startDate.AddDays(i).Day}"] = presentCountPerDay[i].ToString();
@@ -454,6 +488,7 @@ namespace Sonatrach_Pointage_New.Form
             table.Columns.Add("WorkerName", typeof(string));
             table.Columns.Add("Status", typeof(string));
             table.Columns.Add("PresentCount", typeof(int));
+            table.Columns.Add("cell_Ecart", typeof(int));
 
             using (var context = new DAL.DataClasses1DataContext())
             {
@@ -488,6 +523,7 @@ namespace Sonatrach_Pointage_New.Form
                 {
                     var departmentWorkers = workers.Where(w => w.DepartmentID == department.ID_Post).ToList();
                     int presentCount = departmentWorkers.Count(w => w.Status == "P");
+                    double cellEcart = presentCount - department.RequiredEmployees  ;
 
                     foreach (var worker in departmentWorkers)
                     {
@@ -497,6 +533,7 @@ namespace Sonatrach_Pointage_New.Form
                         row["WorkerName"] = worker.WorkerName;
                         row["Status"] = worker.Status ?? "A"; 
                         row["PresentCount"] = presentCount;
+                        row["cell_Ecart"] = cellEcart;
 
                         table.Rows.Add(row);
                     }
@@ -519,7 +556,7 @@ namespace Sonatrach_Pointage_New.Form
         }
 
         private void btn_reportAparJour_Click(object sender, EventArgs e)
-        {
+        {  // etat journaler
             GenerateDailyReport();          
         }
 
