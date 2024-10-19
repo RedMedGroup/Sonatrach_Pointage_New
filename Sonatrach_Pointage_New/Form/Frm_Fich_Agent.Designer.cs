@@ -38,10 +38,16 @@
             this.txt_Name = new DevExpress.XtraEditors.TextEdit();
             this.toggleSwitch1 = new DevExpress.XtraEditors.ToggleSwitch();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.txt_contra = new DevExpress.XtraEditors.TextEdit();
+            this.txt_efectif = new DevExpress.XtraEditors.TextEdit();
+            this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
+            this.labelControl4 = new DevExpress.XtraEditors.LabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.lkp_post.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridLookUpEdit1View)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_Name.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.toggleSwitch1.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_contra.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_efectif.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // btn_valid
@@ -57,7 +63,7 @@
             // 
             // labelControl2
             // 
-            this.labelControl2.Location = new System.Drawing.Point(24, 105);
+            this.labelControl2.Location = new System.Drawing.Point(34, 34);
             this.labelControl2.Margin = new System.Windows.Forms.Padding(2);
             this.labelControl2.Name = "labelControl2";
             this.labelControl2.Size = new System.Drawing.Size(28, 13);
@@ -66,7 +72,7 @@
             // 
             // labelControl1
             // 
-            this.labelControl1.Location = new System.Drawing.Point(24, 56);
+            this.labelControl1.Location = new System.Drawing.Point(34, 114);
             this.labelControl1.Margin = new System.Windows.Forms.Padding(2);
             this.labelControl1.Name = "labelControl1";
             this.labelControl1.Size = new System.Drawing.Size(80, 13);
@@ -75,14 +81,14 @@
             // 
             // lkp_post
             // 
-            this.lkp_post.Location = new System.Drawing.Point(116, 103);
+            this.lkp_post.Location = new System.Drawing.Point(126, 32);
             this.lkp_post.Margin = new System.Windows.Forms.Padding(2);
             this.lkp_post.Name = "lkp_post";
             this.lkp_post.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.lkp_post.Properties.NullText = "";
             this.lkp_post.Properties.PopupView = this.gridLookUpEdit1View;
-            this.lkp_post.Size = new System.Drawing.Size(218, 20);
+            this.lkp_post.Size = new System.Drawing.Size(247, 20);
             this.lkp_post.TabIndex = 6;
             // 
             // gridLookUpEdit1View
@@ -95,7 +101,7 @@
             // 
             // txt_Name
             // 
-            this.txt_Name.Location = new System.Drawing.Point(116, 53);
+            this.txt_Name.Location = new System.Drawing.Point(126, 111);
             this.txt_Name.Margin = new System.Windows.Forms.Padding(2);
             this.txt_Name.Name = "txt_Name";
             this.txt_Name.Size = new System.Drawing.Size(203, 20);
@@ -103,7 +109,7 @@
             // 
             // toggleSwitch1
             // 
-            this.toggleSwitch1.Location = new System.Drawing.Point(324, 49);
+            this.toggleSwitch1.Location = new System.Drawing.Point(334, 109);
             this.toggleSwitch1.Name = "toggleSwitch1";
             this.toggleSwitch1.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Default;
             this.toggleSwitch1.Properties.OffText = "Off";
@@ -112,11 +118,47 @@
             this.toggleSwitch1.TabIndex = 10;
             this.toggleSwitch1.Toggled += new System.EventHandler(this.toggleSwitch1_Toggled);
             // 
+            // txt_contra
+            // 
+            this.txt_contra.Location = new System.Drawing.Point(126, 72);
+            this.txt_contra.Name = "txt_contra";
+            this.txt_contra.Properties.ReadOnly = true;
+            this.txt_contra.Size = new System.Drawing.Size(79, 20);
+            this.txt_contra.TabIndex = 11;
+            // 
+            // txt_efectif
+            // 
+            this.txt_efectif.Location = new System.Drawing.Point(279, 72);
+            this.txt_efectif.Name = "txt_efectif";
+            this.txt_efectif.Properties.ReadOnly = true;
+            this.txt_efectif.Size = new System.Drawing.Size(76, 20);
+            this.txt_efectif.TabIndex = 12;
+            // 
+            // labelControl3
+            // 
+            this.labelControl3.Location = new System.Drawing.Point(28, 75);
+            this.labelControl3.Name = "labelControl3";
+            this.labelControl3.Size = new System.Drawing.Size(92, 13);
+            this.labelControl3.TabIndex = 13;
+            this.labelControl3.Text = "EFECTIF CONTRAT";
+            // 
+            // labelControl4
+            // 
+            this.labelControl4.Location = new System.Drawing.Point(230, 75);
+            this.labelControl4.Name = "labelControl4";
+            this.labelControl4.Size = new System.Drawing.Size(41, 13);
+            this.labelControl4.TabIndex = 14;
+            this.labelControl4.Text = "N°actual";
+            // 
             // Frm_Fich_Agent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(421, 223);
+            this.ClientSize = new System.Drawing.Size(427, 223);
+            this.Controls.Add(this.labelControl4);
+            this.Controls.Add(this.labelControl3);
+            this.Controls.Add(this.txt_efectif);
+            this.Controls.Add(this.txt_contra);
             this.Controls.Add(this.toggleSwitch1);
             this.Controls.Add(this.btn_valid);
             this.Controls.Add(this.labelControl2);
@@ -124,7 +166,7 @@
             this.Controls.Add(this.lkp_post);
             this.Controls.Add(this.txt_Name);
             this.IconOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("Frm_Fich_Agent.IconOptions.SvgImage")));
-            this.MinimizeBox = false;
+            this.MaximizeBox = false;
             this.Name = "Frm_Fich_Agent";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Fich_Agent";
@@ -133,6 +175,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridLookUpEdit1View)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_Name.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.toggleSwitch1.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_contra.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_efectif.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -148,5 +192,9 @@
         private DevExpress.XtraEditors.TextEdit txt_Name;
         private DevExpress.XtraEditors.ToggleSwitch toggleSwitch1;
         private System.Windows.Forms.ToolTip toolTip1;
+        private DevExpress.XtraEditors.TextEdit txt_contra;
+        private DevExpress.XtraEditors.TextEdit txt_efectif;
+        private DevExpress.XtraEditors.LabelControl labelControl3;
+        private DevExpress.XtraEditors.LabelControl labelControl4;
     }
 }

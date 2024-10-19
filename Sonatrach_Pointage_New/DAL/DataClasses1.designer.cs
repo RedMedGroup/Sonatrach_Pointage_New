@@ -48,7 +48,7 @@ namespace Sonatrach_Pointage_New.DAL
     #endregion
 		
 		public DataClasses1DataContext() : 
-				base(global::Sonatrach_Pointage_New.Properties.Settings.Default.Sonatrach_PointageConnectionString, mappingSource)
+				base(global::Sonatrach_Pointage_New.Properties.Settings.Default.CON_STRING, mappingSource)
 		{
 			OnCreated();
 		}

@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace Sonatrach_Pointage_New.Form
 {
@@ -44,6 +45,24 @@ namespace Sonatrach_Pointage_New.Form
                 lkp_post.Properties.ValueMember = "ID";
                 lkp_post.Properties.PopulateViewColumns();
                 lkp_post.Properties.View.Columns["ID"].Visible = false;
+            }
+            lkp_post.EditValueChanged += Lkp_post_EditValueChanged;
+        }
+
+        private void Lkp_post_EditValueChanged(object sender, EventArgs e)
+        {
+            int selectedPostId = (int)lkp_post.EditValue;
+
+            using (var db = new DAL.DataClasses1DataContext())
+            {
+                var postDetails = db.Fiche_DePosts.FirstOrDefault(x => x.ID == selectedPostId);
+                if (postDetails != null)
+                {
+                    txt_contra.Text = postDetails.Nembre_Contra.ToString();
+                }
+
+                int agentCount = db.Fich_Agents.Count(x => x.ID_Post == selectedPostId && x.IsActive == true);
+                txt_efectif.Text = agentCount.ToString();
             }
         }
 

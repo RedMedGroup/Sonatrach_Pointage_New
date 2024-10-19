@@ -32,7 +32,7 @@ namespace Sonatrach_Pointage_New.Form
         {
             InitializeComponent();
             ribbon.ItemClick += Ribbon_ItemClick;
-            barButtonItem7.Caption = Frm_LogIn.NamUser;
+            barButtonItem7.Caption = LogIn.NamUser;
         }
 
         private void Ribbon_ItemClick(object sender, ItemClickEventArgs e)

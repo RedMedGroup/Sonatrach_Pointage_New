@@ -130,7 +130,7 @@
             // 
             // cell_ncontra
             // 
-            this.cell_ncontra.BorderDashStyle = DevExpress.XtraPrinting.BorderDashStyle.Dash;
+            this.cell_ncontra.BorderDashStyle = DevExpress.XtraPrinting.BorderDashStyle.Solid;
             this.cell_ncontra.Font = new DevExpress.Drawing.DXFont("Arial", 9.75F, DevExpress.Drawing.DXFontStyle.Bold);
             this.cell_ncontra.ForeColor = System.Drawing.Color.Black;
             this.cell_ncontra.Multiline = true;
@@ -173,7 +173,7 @@
             // 
             // Cell_PresentCount
             // 
-            this.Cell_PresentCount.BorderDashStyle = DevExpress.XtraPrinting.BorderDashStyle.Dash;
+            this.Cell_PresentCount.BorderDashStyle = DevExpress.XtraPrinting.BorderDashStyle.Solid;
             this.Cell_PresentCount.Font = new DevExpress.Drawing.DXFont("Arial", 9.75F, DevExpress.Drawing.DXFontStyle.Bold);
             this.Cell_PresentCount.ForeColor = System.Drawing.Color.Black;
             this.Cell_PresentCount.Multiline = true;
@@ -188,7 +188,7 @@
             // 
             // cell_Ecart
             // 
-            this.cell_Ecart.BorderDashStyle = DevExpress.XtraPrinting.BorderDashStyle.Dash;
+            this.cell_Ecart.BorderDashStyle = DevExpress.XtraPrinting.BorderDashStyle.Solid;
             this.cell_Ecart.Font = new DevExpress.Drawing.DXFont("Arial", 9.75F, DevExpress.Drawing.DXFontStyle.Bold);
             this.cell_Ecart.ForeColor = System.Drawing.Color.Black;
             this.cell_Ecart.Multiline = true;

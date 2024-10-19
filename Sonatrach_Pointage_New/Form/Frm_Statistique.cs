@@ -335,7 +335,7 @@ namespace Sonatrach_Pointage_New.Form
                 for (int i = 0; i < totalDays; i++)
                 {
                     presentCountRow[$"{startDate.AddDays(i).Day}"] = presentCountPerDay[i].ToString();
-                    totalPresent += presentCountPerDay[i];
+                   // totalPresent += presentCountPerDay[i];
                 }
                 presentCountRow["Total"] = totalPresent; // تخزين المجموع
                 table.Rows.Add(presentCountRow);
@@ -347,7 +347,7 @@ namespace Sonatrach_Pointage_New.Form
                 for (int i = 0; i < totalDays; i++)
                 {
                     absentCountRow[$"{startDate.AddDays(i).Day}"] = absentCountPerDay[i].ToString();
-                    totalAbsent += absentCountPerDay[i];
+                   // totalAbsent += absentCountPerDay[i];
                 }
                 absentCountRow["Total"] = totalAbsent; // تخزين المجموع
                 table.Rows.Add(absentCountRow);
