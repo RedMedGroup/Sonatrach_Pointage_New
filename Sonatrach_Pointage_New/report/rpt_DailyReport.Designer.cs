@@ -335,8 +335,10 @@
             // Bloc
             // 
             this.Bloc.Borders = DevExpress.XtraPrinting.BorderSide.None;
+            this.Bloc.Font = new DevExpress.Drawing.DXFont("Arial", 7.75F, DevExpress.Drawing.DXFontStyle.Bold);
             this.Bloc.Name = "Bloc";
             this.Bloc.StylePriority.UseBorders = false;
+            this.Bloc.StylePriority.UseFont = false;
             this.Bloc.StylePriority.UseTextAlignment = false;
             this.Bloc.Text = "EFECTIFE/CONTRAT";
             this.Bloc.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
@@ -356,9 +358,11 @@
             // xrTableCell2
             // 
             this.xrTableCell2.Borders = DevExpress.XtraPrinting.BorderSide.None;
+            this.xrTableCell2.Font = new DevExpress.Drawing.DXFont("Arial", 7.75F, DevExpress.Drawing.DXFontStyle.Bold);
             this.xrTableCell2.Multiline = true;
             this.xrTableCell2.Name = "xrTableCell2";
             this.xrTableCell2.StylePriority.UseBorders = false;
+            this.xrTableCell2.StylePriority.UseFont = false;
             this.xrTableCell2.StylePriority.UseTextAlignment = false;
             this.xrTableCell2.Text = "Efectif /multicatering";
             this.xrTableCell2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;

@@ -1,4 +1,6 @@
 ﻿using DevExpress.XtraEditors;
+using DevExpress.XtraReports.UI;
+using Sonatrach_Pointage_New.report;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -154,6 +156,53 @@ namespace Sonatrach_Pointage_New.Form
             }
 
             return table;
+        }
+
+        private void PrintWorkDayReport()
+        {
+            // إنشاء الجدول باستخدام الدالة CreateEmployeeReport
+            DataTable workDaysTable = CreateEmployeeReport();
+
+            // التحقق من وجود بيانات في الجدول
+            if (workDaysTable.Rows.Count == 0)
+            {
+                MessageBox.Show("Il n'y a aucune donnée à afficher dans le rapport.", "Alerte", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            string reportTitle = checkEdit1.Checked ?
+        "Rapport des Employés avec plus de 28 jours de travail" :
+        "Rapport des Jours de Travail";
+            if (checkEdit1.Checked)
+            {
+
+                var filteredRows = workDaysTable.AsEnumerable()
+                                    .Where(row => row.Field<int?>("Jours ouvrables") > 28);
+
+                if (!filteredRows.Any())
+                {
+                    MessageBox.Show("Il n'y a pas de données pour les personnes de plus de 28 jours.", "Alerte", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                workDaysTable = filteredRows.CopyToDataTable();
+
+            }
+            rpt_WorkDay report = new rpt_WorkDay();
+
+            report.DataSource = workDaysTable;
+            report.FindControl("xrLabel1", true).Text = reportTitle;
+            report.FindControl("cell_nom", true).DataBindings.Add("Text", null, "Nom et Prénom");
+            report.FindControl("cell_poste", true).DataBindings.Add("Text", null, "Poste");
+            report.FindControl("cell_date", true).DataBindings.Add("Text", null, "Date de retour des vacances", "{0:dd/MM/yyyy}");
+            report.FindControl("cell_jour", true).DataBindings.Add("Text", null, "Jours ouvrables");
+
+            ReportPrintTool printTool = new ReportPrintTool(report);
+            printTool.ShowPreviewDialog();
+        }
+
+        private void btn_print_Click(object sender, EventArgs e)
+        {
+            PrintWorkDayReport();
         }
     }
 }

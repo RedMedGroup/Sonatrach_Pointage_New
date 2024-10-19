@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LogIn));
             this.label3 = new System.Windows.Forms.Label();
             this.registrationButton = new System.Windows.Forms.Button();
             this.checkboxShowPass = new System.Windows.Forms.CheckBox();
@@ -173,7 +174,9 @@
             this.Controls.Add(this.txt_UserName);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.IconOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("LogIn.IconOptions.SvgImage")));
             this.Name = "LogIn";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "LogIn";
             this.Load += new System.EventHandler(this.LogIn_Load);
             this.ResumeLayout(false);

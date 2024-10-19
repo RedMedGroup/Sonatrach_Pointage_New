@@ -195,6 +195,12 @@
     <Compile Include="report\rpt_pointage.Designer.cs">
       <DependentUpon>rpt_pointage.cs</DependentUpon>
     </Compile>
+    <Compile Include="report\rpt_WorkDay.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="report\rpt_WorkDay.Designer.cs">
+      <DependentUpon>rpt_WorkDay.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -252,6 +258,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="report\rpt_pointage.resx">
       <DependentUpon>rpt_pointage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="report\rpt_WorkDay.resx">
+      <DependentUpon>rpt_WorkDay.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="App.config" />
     <None Include="DAL\DataClasses1.dbml">
