@@ -42,12 +42,15 @@
             this.txt_efectif = new DevExpress.XtraEditors.TextEdit();
             this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl4 = new DevExpress.XtraEditors.LabelControl();
+            this.dateEdit1 = new DevExpress.XtraEditors.DateEdit();
             ((System.ComponentModel.ISupportInitialize)(this.lkp_post.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridLookUpEdit1View)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_Name.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.toggleSwitch1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_contra.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_efectif.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dateEdit1.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dateEdit1.Properties.CalendarTimeProperties)).BeginInit();
             this.SuspendLayout();
             // 
             // btn_valid
@@ -109,7 +112,7 @@
             // 
             // toggleSwitch1
             // 
-            this.toggleSwitch1.Location = new System.Drawing.Point(334, 109);
+            this.toggleSwitch1.Location = new System.Drawing.Point(320, 136);
             this.toggleSwitch1.Name = "toggleSwitch1";
             this.toggleSwitch1.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Default;
             this.toggleSwitch1.Properties.OffText = "Off";
@@ -150,11 +153,24 @@
             this.labelControl4.TabIndex = 14;
             this.labelControl4.Text = "N°actual";
             // 
+            // dateEdit1
+            // 
+            this.dateEdit1.EditValue = null;
+            this.dateEdit1.Location = new System.Drawing.Point(315, 166);
+            this.dateEdit1.Name = "dateEdit1";
+            this.dateEdit1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.dateEdit1.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.dateEdit1.Size = new System.Drawing.Size(100, 20);
+            this.dateEdit1.TabIndex = 15;
+            // 
             // Frm_Fich_Agent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(427, 223);
+            this.Controls.Add(this.dateEdit1);
             this.Controls.Add(this.labelControl4);
             this.Controls.Add(this.labelControl3);
             this.Controls.Add(this.txt_efectif);
@@ -177,6 +193,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.toggleSwitch1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_contra.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt_efectif.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dateEdit1.Properties.CalendarTimeProperties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dateEdit1.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -196,5 +214,6 @@
         private DevExpress.XtraEditors.TextEdit txt_efectif;
         private DevExpress.XtraEditors.LabelControl labelControl3;
         private DevExpress.XtraEditors.LabelControl labelControl4;
+        private DevExpress.XtraEditors.DateEdit dateEdit1;
     }
 }

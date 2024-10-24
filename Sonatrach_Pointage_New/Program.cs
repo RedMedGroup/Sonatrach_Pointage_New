@@ -1,6 +1,7 @@
 ﻿using DevExpress.LookAndFeel;
 using DevExpress.Skins;
 using DevExpress.UserSkins;
+using Sonatrach_Pointage_New.Form;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,7 @@ namespace Sonatrach_Pointage_New
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form.LogIn());
+          //  Application.Run(new SQL_Server_Config());
         }
     }
 }

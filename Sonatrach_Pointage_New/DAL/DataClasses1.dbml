@@ -38,6 +38,7 @@
       <Column Name="Name" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
       <Column Name="ID_Post" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="IsActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Date_StopJob" Type="System.DateTime" DbType="Date" CanBeNull="true" />
     </Type>
   </Table>
 </Database>

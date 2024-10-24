@@ -75,12 +75,14 @@ namespace Sonatrach_Pointage_New.Form
             agent.Name = txt_Name.Text;
             agent.ID_Post = Convert.ToInt32(lkp_post.EditValue);
             agent.IsActive = toggleSwitch1.IsOn;
+            agent.Date_StopJob = dateEdit1.DateTime;
         }
         void GetData()
         {
             txt_Name.Text = agent.Name;
             lkp_post.EditValue = agent.ID_Post;
             toggleSwitch1.IsOn=agent.IsActive;
+            dateEdit1.DateTime = (DateTime)agent.Date_StopJob;
         }
         void New()
         {

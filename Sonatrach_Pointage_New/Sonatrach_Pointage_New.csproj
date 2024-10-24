@@ -89,6 +89,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classe\DatabaseHelper.cs" />
     <Compile Include="Classe\Master.cs" />
     <Compile Include="Classe\sqlhelper.cs" />
     <Compile Include="Classe\UserManager.cs" />
@@ -145,6 +146,12 @@
     <Compile Include="Form\Frm_Main.Designer.cs">
       <DependentUpon>Frm_Main.cs</DependentUpon>
     </Compile>
+    <Compile Include="Form\Frm_MVM.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\Frm_MVM.Designer.cs">
+      <DependentUpon>Frm_MVM.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form\Frm_Statistique.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -175,6 +182,12 @@
     <Compile Include="Form\LogIn.Designer.cs">
       <DependentUpon>LogIn.cs</DependentUpon>
     </Compile>
+    <Compile Include="Form\SQL_Server_Config.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\SQL_Server_Config.Designer.cs">
+      <DependentUpon>SQL_Server_Config.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="report\rpt_DailyReport.cs">
@@ -194,6 +207,12 @@
     </Compile>
     <Compile Include="report\rpt_pointage.Designer.cs">
       <DependentUpon>rpt_pointage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="report\rpt_Poste_Absence.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="report\rpt_Poste_Absence.Designer.cs">
+      <DependentUpon>rpt_Poste_Absence.cs</DependentUpon>
     </Compile>
     <Compile Include="report\rpt_WorkDay.cs">
       <SubType>Component</SubType>
@@ -225,6 +244,9 @@
     <EmbeddedResource Include="Form\Frm_Main.resx">
       <DependentUpon>Frm_Main.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Form\Frm_MVM.resx">
+      <DependentUpon>Frm_MVM.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form\Frm_Statistique.resx">
       <DependentUpon>Frm_Statistique.cs</DependentUpon>
     </EmbeddedResource>
@@ -239,6 +261,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form\LogIn.resx">
       <DependentUpon>LogIn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\SQL_Server_Config.resx">
+      <DependentUpon>SQL_Server_Config.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -258,6 +283,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="report\rpt_pointage.resx">
       <DependentUpon>rpt_pointage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="report\rpt_Poste_Absence.resx">
+      <DependentUpon>rpt_Poste_Absence.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="report\rpt_WorkDay.resx">
       <DependentUpon>rpt_WorkDay.cs</DependentUpon>

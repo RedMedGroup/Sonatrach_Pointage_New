@@ -173,7 +173,7 @@ namespace Sonatrach_Pointage_New.Form
             dateEdit2.DateTime = selectedDate.AddDays(remainingDays);
         }
       
-        private DataTable CreateDataTable()
+        private DataTable CreateDataTable()// cherch
         {
             DataTable table = new DataTable();
             table.Columns.Add("POSTE", typeof(string));
@@ -204,8 +204,31 @@ namespace Sonatrach_Pointage_New.Form
 
             var context = new DAL.DataClasses1DataContext();
 
-                var groups = FicheAgentList.Where(agent => agent.IsActive == true).GroupBy(agent => agent.ID_Post )
-               .Select(g => new
+            //  var groups = FicheAgentList.Where(agent => agent.IsActive == true).GroupBy(agent => agent.ID_Post )
+            //
+            var groups = FicheAgentList
+           .Where(agent =>
+           {
+        if (!agent.IsActive)
+        {
+          // إذا كان الشخص غير نشط، تحقق من تاريخ التوقف
+          if (agent.Date_StopJob.HasValue && agent.Date_StopJob.Value <= endDate)
+          {
+              // عرض بياناته إذا كان تاريخ التوقف ضمن النطاق الزمني
+              return agent.Date_StopJob.Value >= startDate && agent.Date_StopJob.Value <= endDate;
+          }
+          else
+          {
+              // لا يعرض إذا كان تاريخ التوقف غير محدد أو خارج النطاق الزمني
+              return false;
+          }
+        }
+         // إذا كان الشخص نشطًا، يعرض بياناته بشكل افتراضي
+                return true;
+                })
+             .GroupBy(agent => agent.ID_Post)
+            //
+             .Select(g => new
                {
                    Specialization = context.Fiche_DePosts.FirstOrDefault(sp => sp.ID == g.Key)?.Name,
                    RequiredQuantity = context.Fiche_DePosts.FirstOrDefault(sp => sp.ID == g.Key)?.Nembre_Contra ?? 0,
@@ -254,8 +277,8 @@ namespace Sonatrach_Pointage_New.Form
                                 else if (attendance.Statut == "A")
                                 {
                                     row[$"{currentDay.Day}"] = "A";
-                                    absentCountPerDay[i]++; // حساب عدد الغياب لليوم الحالي
-                                    totalAbsent++; // حساب مجموع الغياب
+                                    absentCountPerDay[i]++; 
+                                    totalAbsent++; 
                                 }
                                 else if (attendance.Statut == "CR")
                                 {
@@ -281,6 +304,7 @@ namespace Sonatrach_Pointage_New.Form
                             {
                                 row[$"{currentDay.Day}"] = "Error";
                             }
+                           
                         }
                         else
                         {
@@ -289,10 +313,9 @@ namespace Sonatrach_Pointage_New.Form
                     }
                     table.Rows.Add(row);
                 }
-
+           
                 // إضافة صف لحساب الحضور "P/Total"
-                DataRow presentCountRow = table.NewRow();
-                presentCountRow["Name"] = "P/Total";
+              
                 //////////////////////////////////////////////////////////////////////////////////
                 // التحقق في كل يوم إذا كان مجموع الحضور والغياب أقل من "EFECTIF/CONTRAT"
                 // إيجاد آخر تاريخ مسجل للحضور أو الغياب
@@ -323,19 +346,27 @@ namespace Sonatrach_Pointage_New.Form
                     {
                         break;
                     }
-
-                    if (presentCountPerDay[i] + absentCountPerDay[i] + CongerExCountPerDay [i]+ MaladeCountPerDay[i] + absentAutiréserCountPerDay[i] < group.RequiredQuantity)
+                    int totalCountForDay = presentCountPerDay[i] + absentCountPerDay[i] + CongerExCountPerDay[i] + MaladeCountPerDay[i] + absentAutiréserCountPerDay[i];
+                    if (totalCountForDay < group.RequiredQuantity)
                     {
-                        // إذا كان أقل، عرض رسالة وعدم عرض الجدول
-                        MessageBox.Show($"Le total de présence et d'absence pour le POSTE {group.Specialization} dans le jour {currentDay.ToShortDateString()} est inférieur à l'effectif requis.");
-                        return table;
+                        int deficit = (int)(group.RequiredQuantity - totalCountForDay);
+                        absentCountPerDay[i] += deficit;
+                        totalAbsent += deficit;
                     }
+
+                    //if (presentCountPerDay[i] + absentCountPerDay[i] + CongerExCountPerDay[i] + MaladeCountPerDay[i] + absentAutiréserCountPerDay[i] < group.RequiredQuantity)
+                    //{
+                    //    // إذا كان أقل، عرض رسالة وعدم عرض الجدول
+                    //    // MessageBox.Show($"Le total de présence et d'absence pour le POSTE {group.Specialization} dans le jour {currentDay.ToShortDateString()} est inférieur à l'effectif requis.");
+                    //    //return table;
+                    //}
                 }
                 //////////////////////////////////////////////////////////////////////////////////////////////
+                  DataRow presentCountRow = table.NewRow();
+                presentCountRow["Name"] = "P/Total";
                 for (int i = 0; i < totalDays; i++)
                 {
                     presentCountRow[$"{startDate.AddDays(i).Day}"] = presentCountPerDay[i].ToString();
-                   // totalPresent += presentCountPerDay[i];
                 }
                 presentCountRow["Total"] = totalPresent; // تخزين المجموع
                 table.Rows.Add(presentCountRow);
@@ -347,7 +378,6 @@ namespace Sonatrach_Pointage_New.Form
                 for (int i = 0; i < totalDays; i++)
                 {
                     absentCountRow[$"{startDate.AddDays(i).Day}"] = absentCountPerDay[i].ToString();
-                   // totalAbsent += absentCountPerDay[i];
                 }
                 absentCountRow["Total"] = totalAbsent; // تخزين المجموع
                 table.Rows.Add(absentCountRow);
@@ -392,7 +422,7 @@ namespace Sonatrach_Pointage_New.Form
             ReportPrintTool printTool = new ReportPrintTool(report);
             printTool.ShowPreview();
         }
-        private DataTable CreateAbsenceReport(int totalDays, DateTime startDate, DateTime endDate)
+        private DataTable CreateAbsenceReport(int totalDays, DateTime startDate, DateTime endDate)//pénalité
         {
             DataTable table = new DataTable();
 
@@ -400,7 +430,7 @@ namespace Sonatrach_Pointage_New.Form
             table.Columns.Add("TotalAbsences", typeof(int));
             table.Columns.Add("M_Penalite", typeof(float));
             table.Columns.Add("TotalPenalties", typeof(float));
-
+            table.Columns.Add("Nombre du personnel absent", typeof(int)); 
 
             using (var context = new DAL.DataClasses1DataContext())
             {
@@ -435,7 +465,7 @@ namespace Sonatrach_Pointage_New.Form
                     .ToList();
 
                 // تجميع بيانات الغيابات حسب القسم
-                var departmentAbsences = new Dictionary<string, (int TotalAbsences, float M_Penalite)>();
+                var departmentAbsences = new Dictionary<string, (int TotalAbsences, float M_Penalite, int AbsentPersonnel)>();
 
                 foreach (var group in absenceData)
                 {
@@ -447,11 +477,12 @@ namespace Sonatrach_Pointage_New.Form
                         // تجميع الغيابات لكل قسم
                         if (!departmentAbsences.ContainsKey(department.DepartmentName))
                         {
-                            departmentAbsences[department.DepartmentName] = (0, (float)department.M_Penalite);
+                            departmentAbsences[department.DepartmentName] = (0, (float)department.M_Penalite,0);
                         }
                         departmentAbsences[department.DepartmentName] = (
                             departmentAbsences[department.DepartmentName].TotalAbsences + group.TotalAbsences,
-                            (float)department.M_Penalite
+                            (float)department.M_Penalite,
+                               departmentAbsences[department.DepartmentName].AbsentPersonnel + 1 // تحديث عدد الأشخاص الغائبين
                         );
                     }
                 }
@@ -462,13 +493,15 @@ namespace Sonatrach_Pointage_New.Form
                     row["TotalAbsences"] = dept.Value.TotalAbsences;
                     row["M_Penalite"] = dept.Value.M_Penalite;
                     row["TotalPenalties"] = dept.Value.TotalAbsences * dept.Value.M_Penalite;
+                    row["Nombre du personnel absent"] = dept.Value.AbsentPersonnel; // إضافة عدد الأشخاص الغائبين
+
                     table.Rows.Add(row);
                 }
             }
             return table;
         }
 
-        private void GenerateReport()
+        private void GenerateReport()// pénalité
         {
             DateTime startDate = dateEdit1.DateTime;
             DateTime endDate = dateEdit2.DateTime;
@@ -612,6 +645,12 @@ namespace Sonatrach_Pointage_New.Form
             {
                 MessageBox.Show("Vous n'avez pas les autorisations d'accès.");
             }    
+        }
+
+        private void simpleButton1_Click(object sender, EventArgs e)
+        {
+            Frm_MVM frm = new Frm_MVM();
+            frm.ShowDialog();
         }
     }
 }

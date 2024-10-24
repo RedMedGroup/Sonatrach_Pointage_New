@@ -105,5 +105,65 @@ namespace Sonatrach_Pointage_New.Properties {
                 this["Mode"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Server_Globale {
+            get {
+                return ((string)(this["Server_Globale"]));
+            }
+            set {
+                this["Server_Globale"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Database_Globale {
+            get {
+                return ((string)(this["Database_Globale"]));
+            }
+            set {
+                this["Database_Globale"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Mode_Globale {
+            get {
+                return ((string)(this["Mode_Globale"]));
+            }
+            set {
+                this["Mode_Globale"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Utilisateur_Globale {
+            get {
+                return ((string)(this["Utilisateur_Globale"]));
+            }
+            set {
+                this["Utilisateur_Globale"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Password_Globale {
+            get {
+                return ((string)(this["Password_Globale"]));
+            }
+            set {
+                this["Password_Globale"] = value;
+            }
+        }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using DevExpress.XtraCharts;
 using DevExpress.XtraCharts.Design;
 using DevExpress.XtraEditors;
+using DevExpress.XtraReports.UI;
+using Sonatrach_Pointage_New.report;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,45 +20,37 @@ namespace Sonatrach_Pointage_New.Form
         public Frm_Chart()
         {
             InitializeComponent();
-          //  LoadEmployees();
         }
-
         private void Frm_Chart_Load(object sender, EventArgs e)
         {
             dateEdit1.DateTime=DateTime.Now;
             dateEdit2.DateTime=DateTime.Now;
         }
-        //private void LoadEmployees()
-        //{
-
-        //    using (var context = new DAL.DataClasses1DataContext())
-        //    {
-        //        var employees = context.Fich_Agents.Select(agent => new
-        //        {
-        //            ID = agent.ID,
-        //            Name = agent.Name 
-        //        }).ToList();
-
-        //        gridLookUpEdit1.Properties.DataSource = employees;
-        //        gridLookUpEdit1.Properties.DisplayMember = "Name";
-        //        gridLookUpEdit1.Properties.ValueMember = "ID";
-        //        gridLookUpEdit1.Properties.PopulateViewColumns();
-        //        gridLookUpEdit1.Properties.View.Columns["ID"].Visible = false;
-        //    }
-        //}
-
-        private void simpleButton1_Click(object sender, EventArgs e)
-        {
-            int selectedEmployeeId = Convert.ToInt32(gridLookUpEdit1.EditValue);
+            private void simpleButton1_Click(object sender, EventArgs e)
+            {
             if (checkEdit1.Checked)
             {
+                int selectedEmployeeId = Convert.ToInt32(gridLookUpEdit1.EditValue);
                 LoadAttendanceData(selectedEmployeeId);
 
             }
-            if (checkEdit2.Checked)
+            else if (checkEdit2.Checked)
             {
+                int selectedEmployeeId = Convert.ToInt32(gridLookUpEdit1.EditValue);
                 LoadAttendanceDataForDepartments(selectedEmployeeId);
 
+            }
+            else if (checkEdit3.Checked)
+            {
+                // عرض بيانات الحضور/الغياب لجميع الأقسام حسب الحالة المختارة
+                string selectedStatus = gridLookUpEdit1.EditValue.ToString();
+                LoadAttendanceDataForStatus(selectedStatus);
+            }
+            else if (checkEdit4.Checked)
+            {
+                // عرض بيانات الحضور/الغياب لجميع الأقسام حسب الحالة المختارة
+               // string selectedStatus = gridLookUpEdit1.EditValue.ToString();
+                LoadAttendanceDataForStatus2();
             }
         }
         private void LoadAttendanceData(int employeeId)
@@ -175,7 +169,6 @@ namespace Sonatrach_Pointage_New.Form
             // إنشاء DataTable للحضور والغياب حسب القسم
             DataTable attendanceTable = CreateDepartmentAttendanceReport(departmentId, startDate, endDate);
 
-            // إعداد ChartControl
             SetupDepartmentChart(attendanceTable);
         }
 
@@ -187,7 +180,6 @@ namespace Sonatrach_Pointage_New.Form
 
             using (var context = new DAL.DataClasses1DataContext())
             {
-                // استعلام للحصول على بيانات الحضور والغياب من قاعدة البيانات
                 var attendanceData = from detail in context.P_Details
                                      join header in context.P_Heders on detail.ID_Heder equals header.ID
                                      join agent in context.Fich_Agents on detail.ItemID equals agent.ID
@@ -200,7 +192,7 @@ namespace Sonatrach_Pointage_New.Form
                                          Statut = detail.Statut 
                                      };
 
-                // احسب عدد كل حالة
+                //  عدد كل حالة
                 var groupedAttendance = attendanceData
                     .AsEnumerable()
                     .GroupBy(status => GetAttendanceStatus(status.Statut))
@@ -230,10 +222,8 @@ namespace Sonatrach_Pointage_New.Form
             series.ArgumentDataMember = "Status";
             series.ValueDataMembers.AddRange(new string[] { "Count" });
 
-            // إضافة السلسلة إلى الشارت وربطها بـ DataTable
             series.DataSource = attendanceTable;
 
-            // إضافة السلسلة إلى الشارت
             chartControl1.Series.Add(series);
 
             // إعدادات الشارت
@@ -244,7 +234,9 @@ namespace Sonatrach_Pointage_New.Form
 
         private void checkEdit1_CheckedChanged(object sender, EventArgs e)
         {
-            checkEdit2.Checked=false;
+            checkEdit2.Checked=false; checkEdit3.Checked = false; checkEdit4.Checked = false;
+            gridLookUpEdit1.ReadOnly = false;
+            checkEdit1.ReadOnly = checkEdit2.ReadOnly = checkEdit3.ReadOnly = false;
             using (var context = new DAL.DataClasses1DataContext())
             {
                 var employees = context.Fich_Agents.Select(agent => new
@@ -252,7 +244,7 @@ namespace Sonatrach_Pointage_New.Form
                     ID = agent.ID,
                     Name = agent.Name
                 }).ToList();
-
+                gridLookUpEdit1.Properties.View.Columns.Clear();
                 gridLookUpEdit1.Properties.DataSource = employees;
                 gridLookUpEdit1.Properties.DisplayMember = "Name";
                 gridLookUpEdit1.Properties.ValueMember = "ID";
@@ -263,22 +255,313 @@ namespace Sonatrach_Pointage_New.Form
 
         private void checkEdit2_CheckedChanged(object sender, EventArgs e)
         {
-            checkEdit1.Checked = false;
+            checkEdit1.Checked = false; checkEdit3.Checked = false; checkEdit4.Checked = false;
+            gridLookUpEdit1.Properties.DataSource = null;
+            gridLookUpEdit1.ReadOnly = false;
+            checkEdit1.ReadOnly = checkEdit2.ReadOnly = checkEdit3.ReadOnly = false;
+            if (checkEdit2.Checked)
+            {
+                using (var context = new DAL.DataClasses1DataContext())
+                {
+                    var employees = context.Fiche_DePosts.Select(agent => new
+                    {
+                        ID = agent.ID,
+                        Name = agent.Name
+                    }).ToList();
+                    gridLookUpEdit1.Properties.View.Columns.Clear();
+                    gridLookUpEdit1.Properties.DataSource = employees;
+                    gridLookUpEdit1.Properties.DisplayMember = "Name";
+                    gridLookUpEdit1.Properties.ValueMember = "ID";
+                    gridLookUpEdit1.Properties.PopulateViewColumns();
+                    gridLookUpEdit1.Properties.View.Columns["ID"].Visible = false;
+                }
+            }         
+        }
+
+        private void checkEdit3_CheckedChanged(object sender, EventArgs e)
+        {
+            checkEdit1.Checked = false; checkEdit2.Checked = false; checkEdit4.Checked = false;
+            gridLookUpEdit1.Properties.DataSource = null;
+            gridLookUpEdit1.ReadOnly = false;
+            checkEdit1.ReadOnly = checkEdit2.ReadOnly = checkEdit3.ReadOnly = false;
+            if (checkEdit3.Checked)
+            {
+                var statusList = new List<string> { "P", "A", "CR", "CE", "AA", "M" };
+
+                DataTable dataTable = new DataTable();
+                dataTable.Columns.Add("Statut", typeof(string));
+
+                foreach (var status in statusList)
+                {
+                    dataTable.Rows.Add(status);
+                }
+
+                gridLookUpEdit1.Properties.DataSource = dataTable;
+                gridLookUpEdit1.Properties.DisplayMember = "Statut";
+                gridLookUpEdit1.Properties.ValueMember = "Statut";
+
+                gridLookUpEdit1.Properties.View.Columns.Clear();
+                gridLookUpEdit1.Properties.View.Columns.AddVisible("Statut");
+
+                // تغيير عنوان العمود إلى "Statut"
+                gridLookUpEdit1.Properties.View.Columns["Statut"].Caption = "Statut";
+            }          
+        }
+        /////////////////////////////////////////////// poste
+        #region
+        private void SetupDepartmentCharPost(DataTable attendanceTable)
+        {
+            if (attendanceTable.Rows.Count == 0)
+            {
+                MessageBox.Show("لا توجد بيانات لعرضها في الشارت.");
+                return;
+            }
+
+            chartControl1.Series.Clear();
+
+            // إنشاء سلسلة جديدة وإعداداتها
+            Series series = new Series("Attendance", ViewType.Bar)
+            {
+                ArgumentDataMember = "Department" // اسم العمود المستخدم كـ argument
+            };
+
+            // تعيين مصدر البيانات للسلسلة
+            series.ValueDataMembers.AddRange(new string[] { "Count" }); // استخدام AddRange بدلاً من التعيين المباشر
+            series.DataSource = attendanceTable;
+
+            // إضافة السلسلة إلى الشارت
+            chartControl1.Series.Add(series);
+
+            // إعدادات إضافية للشارت
+            chartControl1.Legend.Visibility = DevExpress.Utils.DefaultBoolean.True;
+            chartControl1.Titles.Clear();
+            chartControl1.Titles.Add(new DevExpress.XtraCharts.ChartTitle { Text = "Détails des présences et absences par Poste" });
+
+            // تحديث الشارت بعد الإعداد
+            chartControl1.RefreshData();
+        }
+
+        private void LoadAttendanceDataForStatus(string status)
+        {
+            // تواريخ البداية والنهاية
+            DateTime startDate = dateEdit1.DateTime;
+            DateTime endDate = dateEdit2.DateTime;
+
+            // إنشاء DataTable للحضور والغياب حسب الحالة المختارة
+            DataTable attendanceTable = CreateStatusAttendanceReport(status, startDate, endDate);
+
+            SetupDepartmentCharPost(attendanceTable);
+        }
+        private DataTable CreateStatusAttendanceReport(string status, DateTime startDate, DateTime endDate)
+        {
+            DataTable table = new DataTable();
+            table.Columns.Add("Department", typeof(string)); // اسم القسم
+            table.Columns.Add("Count", typeof(int)); // العدد
+
             using (var context = new DAL.DataClasses1DataContext())
             {
-                var employees = context.Fiche_DePosts.Select(agent => new
-                {
-                    ID = agent.ID,
-                    Name = agent.Name
-                }).ToList();
+                var attendanceData = from detail in context.P_Details
+                                     join header in context.P_Heders on detail.ID_Heder equals header.ID
+                                     join agent in context.Fich_Agents on detail.ItemID equals agent.ID
+                                     join poste in context.Fiche_DePosts on agent.ID_Post equals poste.ID
+                                     where detail.Statut == status && // مطابقة الحالة المختارة
+                                           header.Date >= startDate &&
+                                           header.Date <= endDate
+                                     group detail by poste.Name into grouped
+                                     select new
+                                     {
+                                         Department = grouped.Key,
+                                         Count = grouped.Count()
+                                     };
 
-                gridLookUpEdit1.Properties.DataSource = employees;
-                gridLookUpEdit1.Properties.DisplayMember = "Name";
-                gridLookUpEdit1.Properties.ValueMember = "ID";
-                gridLookUpEdit1.Properties.PopulateViewColumns();
-                gridLookUpEdit1.Properties.View.Columns["ID"].Visible = false;
+                // إضافة النتائج إلى DataTable
+                foreach (var group in attendanceData)
+                {
+                    DataRow row = table.NewRow();
+                    row["Department"] = group.Department;
+                    row["Count"] = group.Count;
+                    table.Rows.Add(row);
+                }
             }
+
+            return table;
         }
-       
+        #endregion
+        #region
+        private void LoadAttendanceDataForStatus2()
+        {
+            DateTime startDate = dateEdit1.DateTime;
+            DateTime endDate = dateEdit2.DateTime;
+
+            DataTable attendanceTable = CreateStatusAttendanceReport2( startDate, endDate);
+
+            SetupDepartmentCharPost2(attendanceTable);
+        }
+        private void SetupDepartmentCharPost2(DataTable attendanceTable)
+        {
+            if (attendanceTable.Rows.Count == 0)
+            {
+                MessageBox.Show("لا توجد بيانات لعرضها في الشارت.");
+                return;
+            }
+
+            chartControl1.Series.Clear();
+
+            // إنشاء السلسلة للحضور
+            Series presentSeries = new Series("Présences", ViewType.StackedBar)
+            {
+                ArgumentDataMember = "Department"
+            };
+            presentSeries.ValueDataMembers.AddRange(new string[] { "PresentCount" });
+            presentSeries.LabelsVisibility = DevExpress.Utils.DefaultBoolean.True;
+            ((StackedBarSeriesView)presentSeries.View).Color = Color.Green;
+
+            // إنشاء السلسلة للغياب
+            Series absentSeries = new Series("Absences", ViewType.StackedBar)
+            {
+                ArgumentDataMember = "Department"
+            };
+            absentSeries.ValueDataMembers.AddRange(new string[] { "AbsentCount" });
+            absentSeries.LabelsVisibility = DevExpress.Utils.DefaultBoolean.True;
+            ((StackedBarSeriesView)absentSeries.View).Color = Color.Red;
+
+            // إضافة السلاسل إلى الشارت
+            chartControl1.Series.Add(presentSeries);
+            chartControl1.Series.Add(absentSeries);
+
+            // تحديث البيانات
+            chartControl1.DataSource = attendanceTable;
+            chartControl1.RefreshData();
+
+            // إعدادات إضافية للشارت
+            chartControl1.Legend.Visibility = DevExpress.Utils.DefaultBoolean.True;
+            chartControl1.Titles.Clear();
+            chartControl1.Titles.Add(new DevExpress.XtraCharts.ChartTitle { Text = "Détails des présences et absences par Poste" });
+
+            // ضبط مقياس المحور العمودي
+            XYDiagram diagram = (XYDiagram)chartControl1.Diagram;
+            diagram.AxisY.WholeRange.SetMinMaxValues(0, attendanceTable.AsEnumerable().Max(row => Convert.ToInt32(row["PresentCount"]) + Convert.ToInt32(row["AbsentCount"])));
+        }
+
+        private DataTable CreateStatusAttendanceReport2( DateTime startDate, DateTime endDate)
+        {
+            DataTable table = new DataTable();
+            table.Columns.Add("Department", typeof(string)); 
+            table.Columns.Add("PresentCount", typeof(int)); 
+            table.Columns.Add("AbsentCount", typeof(int)); 
+
+            using (var context = new DAL.DataClasses1DataContext())
+            {
+                var attendanceData = from detail in context.P_Details
+                                     join header in context.P_Heders on detail.ID_Heder equals header.ID
+                                     join agent in context.Fich_Agents on detail.ItemID equals agent.ID
+                                     join poste in context.Fiche_DePosts on agent.ID_Post equals poste.ID
+                                     where header.Date >= startDate &&
+                                           header.Date <= endDate
+                                     group detail by poste.Name into grouped
+                                     select new
+                                     {
+                                         Department = grouped.Key,
+                                         PresentCount = grouped.Count(d => d.Statut == "P"), 
+                                         AbsentCount = grouped.Count(d => d.Statut == "A") 
+                                     };
+
+                foreach (var group in attendanceData)
+                {
+                    DataRow row = table.NewRow();
+                    row["Department"] = group.Department;
+                    row["PresentCount"] = group.PresentCount;
+                    row["AbsentCount"] = group.AbsentCount;
+                    table.Rows.Add(row);
+                }
+            }
+
+            return table;
+        }
+        #endregion
+        
+
+        private void checkEdit4_CheckedChanged(object sender, EventArgs e)
+        {
+            if(checkEdit4.Checked)
+            {
+                checkEdit1.Checked = false; checkEdit2.Checked = false; checkEdit3.Checked = false;
+                gridLookUpEdit1.ReadOnly = true;
+                checkEdit1.ReadOnly = checkEdit2.ReadOnly = checkEdit3.ReadOnly = true;
+            }
+            else
+            {
+                gridLookUpEdit1.ReadOnly = false;
+                checkEdit1.ReadOnly = checkEdit2.ReadOnly = checkEdit3.ReadOnly = false;
+            }
+           
+        }
+        #region generaite absent poste report 
+        private DataTable CreateAbsenceReport(DateTime startDate, DateTime endDate)
+        {
+            DataTable table = new DataTable();
+            table.Columns.Add("Department", typeof(string));
+            table.Columns.Add("AbsentCount", typeof(int));
+
+            using (var context = new DAL.DataClasses1DataContext())
+            {
+                var absenceData = from detail in context.P_Details
+                                  join header in context.P_Heders on detail.ID_Heder equals header.ID
+                                  join agent in context.Fich_Agents on detail.ItemID equals agent.ID
+                                  join poste in context.Fiche_DePosts on agent.ID_Post equals poste.ID
+                                  where header.Date >= startDate &&
+                                        header.Date <= endDate
+                                  group detail by poste.Name into grouped
+                                  let AbsentCount = grouped.Count(d => d.Statut == "A")
+                                  where AbsentCount > 0
+                                  select new
+                                  {
+                                      Department = grouped.Key,
+                                      AbsentCount
+                                  };
+
+                foreach (var group in absenceData)
+                {
+                    DataRow row = table.NewRow();
+                    row["Department"] = group.Department;
+                    row["AbsentCount"] = group.AbsentCount;
+                    table.Rows.Add(row);
+                }
+            }
+
+            return table;
+        }
+
+        private void GenerateAbsenceReport()
+        {
+            DateTime startDate = dateEdit1.DateTime;
+            DateTime endDate = dateEdit2.DateTime;
+
+            // الحصول على بيانات الغيابات
+            DataTable absenceTable = CreateAbsenceReport(startDate, endDate);
+
+            // إنشاء التقرير
+            rpt_Poste_Absence report = new rpt_Poste_Absence();
+
+            // تعيين مصدر البيانات للتقرير
+            report.DataSource = absenceTable;
+            report.DataMember = absenceTable.TableName;
+
+            // ربط الحقول cell_poste و cell_absent مع الأعمدة في DataTable
+            report.cell_poste.DataBindings.Add("Text", absenceTable, "Department");
+            report.cell_abs.DataBindings.Add("Text", absenceTable, "AbsentCount");
+
+            // عرض التقرير في نافذة المعاينة
+            ReportPrintTool printTool = new ReportPrintTool(report);
+            printTool.ShowPreview();
+        }
+
+
+        #endregion
+
+        private void btn_praint_Click(object sender, EventArgs e)
+        {
+            GenerateAbsenceReport();
+        }
     }
 }

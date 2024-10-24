@@ -668,6 +668,8 @@ namespace Sonatrach_Pointage_New.DAL
 		
 		private bool _IsActive;
 		
+		private System.Nullable<System.DateTime> _Date_StopJob;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -680,6 +682,8 @@ namespace Sonatrach_Pointage_New.DAL
     partial void OnID_PostChanged();
     partial void OnIsActiveChanging(bool value);
     partial void OnIsActiveChanged();
+    partial void OnDate_StopJobChanging(System.Nullable<System.DateTime> value);
+    partial void OnDate_StopJobChanged();
     #endregion
 		
 		public Fich_Agent()
@@ -763,6 +767,26 @@ namespace Sonatrach_Pointage_New.DAL
 					this._IsActive = value;
 					this.SendPropertyChanged("IsActive");
 					this.OnIsActiveChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date_StopJob", DbType="Date")]
+		public System.Nullable<System.DateTime> Date_StopJob
+		{
+			get
+			{
+				return this._Date_StopJob;
+			}
+			set
+			{
+				if ((this._Date_StopJob != value))
+				{
+					this.OnDate_StopJobChanging(value);
+					this.SendPropertyChanging();
+					this._Date_StopJob = value;
+					this.SendPropertyChanged("Date_StopJob");
+					this.OnDate_StopJobChanged();
 				}
 			}
 		}

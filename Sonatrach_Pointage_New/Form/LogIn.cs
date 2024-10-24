@@ -83,7 +83,7 @@ namespace Sonatrach_Pointage_New.Form
 
             string apiUrl = "https://api.github.com/repos/RedMedGroup/Sonatrach_Pointage_New/releases/latest";
 
-            string currentVersion = "V2.0.0.0"; // إصدار التطبيق الحالي
+            string currentVersion = "V2.3.0.0"; 
 
             using (WebClient webClient = new WebClient())
             {
@@ -141,7 +141,7 @@ namespace Sonatrach_Pointage_New.Form
 
         private void label6_Click(object sender, EventArgs e)
         {
-            Connextion_SQL frm = new Connextion_SQL();
+            SQL_Server_Config frm = new SQL_Server_Config();
             frm.ShowDialog();
         }
 

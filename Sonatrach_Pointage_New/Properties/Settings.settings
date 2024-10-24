@@ -28,5 +28,20 @@
     <Setting Name="Mode" Type="System.String" Scope="User">
       <Value Profile="(Default)">SQL</Value>
     </Setting>
+    <Setting Name="Server_Globale" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Database_Globale" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Mode_Globale" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Utilisateur_Globale" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Password_Globale" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>
